@@ -51,24 +51,44 @@ function App() {
     }
 
     function changeStatus(todoListID: string, taskId: string, isDone: boolean) {
-        setTasks({...tasks, [todoListID]:tasks[todoListID].map(t=> t.id===taskId ? {...t, isDone: isDone} : t)})
+        setTasks({...tasks, [todoListID]: tasks[todoListID].map(t => t.id === taskId ? {...t, isDone: isDone} : t)})
     }
 
     function changeFilter(todoListID: string, value: FilterValuesType) {
-        setTodolists(todolists.map(t=>t.id===todoListID ? {...t, filter: value} : t))
+        setTodolists(todolists.map(t => t.id === todoListID ? {...t, filter: value} : t))
     }
-    function removeTodolist (todoListID: string) {
-        setTodolists(todolists.filter(t=>t.id!==todoListID))
+
+    function removeTodolist(todoListID: string) {
+        setTodolists(todolists.filter(t => t.id !== todoListID))
     }
-    function addTodoList (title: string) {
+
+    function addTodoList(title: string) {
         let newTodoList: todolistsType = {
             id: v1(),
             title: title,
             filter: "all"
         }
         setTodolists([...todolists, newTodoList])
-        setTasks({...tasks,
-            [newTodoList.id]: []}) //add new empty array, because there are any tasks yet
+        setTasks({
+            ...tasks,
+            [newTodoList.id]: []
+        }) //add new empty array, because there are any tasks yet
+    }
+
+    function changeTaskTitle(todolistID: string, taskID: string, newTitle: string) {
+        let changingTasks = tasks[todolistID];
+        let task = changingTasks.find(t=>t.id=taskID)
+        if (task) {
+            task.title=newTitle
+        }
+        setTasks({...tasks})
+    }
+    function onChangeTDLTitle (todoListID: string, newTitle: string){
+        let toDoList=todolists.find(t=>t.id===todoListID)
+        if (toDoList){
+            toDoList.title=newTitle
+            setTodolists(todolists)
+        }
     }
 
 
@@ -94,6 +114,8 @@ function App() {
                               changeTaskStatus={changeStatus}
                               removeTodolist={removeTodolist}
                               filter={tdl.filter}
+                              onChangeInput={changeTaskTitle}
+                              onChangeTDLTitle={onChangeTDLTitle}
                     />
                 )
             })}

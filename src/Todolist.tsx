@@ -1,6 +1,7 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
 import {FilterValuesType} from './App';
 import {AddItemForm} from "./AddItemForm";
+import EditableSpan from "./EditableSpan";
 
 export type TaskType = {
     id: string
@@ -18,6 +19,8 @@ export type PropsType = {
     changeTaskStatus: (todoListID: string, taskId: string, isDone: boolean) => void
     removeTodolist: (todoListID: string) => void
     filter: FilterValuesType
+    onChangeInput: (todoListID: string, taskId: string, newTitle: string)=> void
+    onChangeTDLTitle: (todoListID: string, newTitle: string)=> void
 }
 
 export function Todolist(props: PropsType) {
@@ -28,24 +31,32 @@ export function Todolist(props: PropsType) {
     const addTask = (title: string) => {
         props.addTask(props.todoListID, title)
     }
+    const onChangeTDLTitleHandler = (newTitle: string) => {
+        props.onChangeTDLTitle(props.todoListID, newTitle)
+    }
 
     return <div>
-        <h3>{props.title}</h3>
+        <h3>
+            <EditableSpan title={props.title} onChange={onChangeTDLTitleHandler}/>
+        </h3>
         <button onClick={() => props.removeTodolist(props.todoListID)}>x</button>
-        <AddItemForm addItem={addTask}/>
+        <AddItemForm addItem={addTask} />
         <ul>
             {
                 props.tasks.map(t => {
                     const onClickHandler = () => props.removeTask(props.todoListID, t.id)
-                    const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+                    const onChangeTaskStatusHandler = (e: ChangeEvent<HTMLInputElement>) => {
                         props.changeTaskStatus(props.todoListID, t.id, e.currentTarget.checked);
+                    }
+                    const onChangeInputHandler = (newTitle: string) => {
+                      props.onChangeInput(props.todoListID, t.id, newTitle)
                     }
 
                     return <li key={t.id} className={t.isDone ? "is-done" : ""}>
                         <input type="checkbox"
-                               onChange={onChangeHandler}
+                               onChange={onChangeTaskStatusHandler}
                                checked={t.isDone}/>
-                        <span>{t.title}</span>
+                        <EditableSpan title={t.title} onChange={onChangeInputHandler}/>
                         <button onClick={onClickHandler}>x</button>
                     </li>
                 })
