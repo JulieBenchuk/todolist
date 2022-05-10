@@ -2,8 +2,9 @@ import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
 import {FilterValuesType} from './App';
 import {AddItemForm} from "./AddItemForm";
 import EditableSpan from "./EditableSpan";
-import {Button} from "@material-ui/core";
-import {Delete} from "@material-ui/icons";
+import {Button} from "@mui/material";
+import DeleteIcon from '@mui/icons-material/Delete';
+
 
 export type TaskType = {
     id: string
@@ -40,7 +41,7 @@ export function Todolist(props: PropsType) {
     return <div>
         <h3>
             <EditableSpan title={props.title} onChange={onChangeTDLTitleHandler}/>
-            <Button variant="text" size="small" startIcon={<Delete />} onClick={() => props.removeTodolist(props.todoListID)}></Button>
+            <Button variant="text" size="small" startIcon={<DeleteIcon />} onClick={() => props.removeTodolist(props.todoListID)}></Button>
         </h3>
         <AddItemForm addItem={addTask} />
         <ul>
@@ -59,7 +60,7 @@ export function Todolist(props: PropsType) {
                                onChange={onChangeTaskStatusHandler}
                                checked={t.isDone}/>
                         <EditableSpan title={t.title} onChange={onChangeInputHandler}/>
-                        <Button variant="text" size="small" startIcon={<Delete />} onClick={onClickHandler}></Button>
+                        <Button variant="text" size="small" startIcon={<DeleteIcon />} onClick={onClickHandler}></Button>
                     </li>
                 })
             }
