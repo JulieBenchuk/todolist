@@ -99,7 +99,7 @@ function App() {
         <div>
             <ButtonAppBar/>
             <Container fixed>
-                <Grid container style={{padding:"20px"}}>
+                <Grid container style={{padding: "20px"}}>
                     <AddItemForm addItem={addTodoList}/>
                 </Grid>
                 <Grid container spacing={3}>
@@ -111,11 +111,10 @@ function App() {
                         if (tdl.filter === "completed") {
                             tasksForTodolist = tasks[tdl.id].filter(t => t.isDone === true);
                         }
-                        return (
-                            <Grid item>
+                        return (           //up key to parent element
+                            <Grid item key={tdl.id}>
                                 <Paper sx={{padding: "10px"}}>
                                     <Todolist title={tdl.title}
-                                              key={tdl.id}
                                               todoListID={tdl.id}
                                               tasks={tasksForTodolist}
                                               removeTask={removeTask}
