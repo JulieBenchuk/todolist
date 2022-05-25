@@ -7,12 +7,12 @@ import ButtonAppBar from "./components/ButtonAppBar";
 import {Container, Grid, Paper} from "@mui/material";
 
 export type FilterValuesType = "all" | "active" | "completed";
-type todolistsType = {
+export type todolistsType = {
     id: string
     title: string
     filter: FilterValuesType
 }
-type TasksType = {
+export type TasksType = {
     [key: string]: Array<TaskType>
 }
 
@@ -42,7 +42,7 @@ function App() {
         ]
     });
 
-
+/// fn for tasks
     function removeTask(todoListID: string, id: string) {
         setTasks({...tasks, [todoListID]: tasks[todoListID].filter(t => t.id !== id)})
     }
@@ -56,6 +56,12 @@ function App() {
         setTasks({...tasks, [todoListID]: tasks[todoListID].map(t => t.id === taskId ? {...t, isDone: isDone} : t)})
     }
 
+    function changeTaskTitle(todolistID: string, taskID: string, newTitle: string) {
+        let newTasks = tasks[todolistID].map(task => task.id === taskID ? {...task, title: newTitle} : task)
+        setTasks({...tasks, [todolistID]: newTasks})
+    }
+
+    /// fn tor todolists
     function changeFilter(todoListID: string, value: FilterValuesType) {
         setTodolists(todolists.map(t => t.id === todoListID ? {...t, filter: value} : t))
     }
@@ -77,10 +83,6 @@ function App() {
         }) //add new empty array, because there are any tasks yet
     }
 
-    function changeTaskTitle(todolistID: string, taskID: string, newTitle: string) {
-        let newTasks = tasks[todolistID].map(task => task.id === taskID ? {...task, title: newTitle} : task)
-        setTasks({...tasks, [todolistID]: newTasks})
-    }
 
     function onChangeTDLTitle(todoListID: string, newTitle: string) {
         let newTodolists = todolists.map(tl => tl.id === todoListID ? {...tl, title: newTitle} : tl)
