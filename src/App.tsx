@@ -78,62 +78,56 @@ function App() {
     }
 
     function changeTaskTitle(todolistID: string, taskID: string, newTitle: string) {
-        let changingTasks = tasks[todolistID];
-        let task = changingTasks.find(t => t.id = taskID)
-        if (task) {
-            task.title = newTitle
-        }
-        setTasks({...tasks})
+        let newTasks = tasks[todolistID].map(task => task.id === taskID ? {...task, title: newTitle} : task)
+        setTasks({...tasks, [todolistID]: newTasks})
     }
 
     function onChangeTDLTitle(todoListID: string, newTitle: string) {
-        let toDoList = todolists.find(t => t.id === todoListID)
-        if (toDoList) {
-            toDoList.title = newTitle
-            setTodolists(todolists)
-        }
+        let newTodolists = todolists.map(tl => tl.id === todoListID ? {...tl, title: newTitle} : tl)
+        setTodolists(newTodolists)
     }
 
 
-    return (
-        <div>
-            <ButtonAppBar/>
-            <Container fixed>
-                <Grid container style={{padding: "20px"}}>
-                    <AddItemForm addItem={addTodoList}/>
-                </Grid>
-                <Grid container spacing={3}>
-                    {todolists.map(tdl => {
-                        let tasksForTodolist = tasks[tdl.id];
-                        if (tdl.filter === "active") {
-                            tasksForTodolist = tasks[tdl.id].filter(t => t.isDone === false);
-                        }
-                        if (tdl.filter === "completed") {
-                            tasksForTodolist = tasks[tdl.id].filter(t => t.isDone === true);
-                        }
-                        return (           //up key to parent element
-                            <Grid item key={tdl.id}>
-                                <Paper sx={{padding: "10px"}}>
-                                    <Todolist title={tdl.title}
-                                              todoListID={tdl.id}
-                                              tasks={tasksForTodolist}
-                                              removeTask={removeTask}
-                                              changeFilter={changeFilter}
-                                              addTask={addTask}
-                                              changeTaskStatus={changeStatus}
-                                              removeTodolist={removeTodolist}
-                                              filter={tdl.filter}
-                                              onChangeInput={changeTaskTitle}
-                                              onChangeTDLTitle={onChangeTDLTitle}
-                                    />
-                                </Paper>
-                            </Grid>
-                        )
-                    })}
-                </Grid>
-            </Container>
-        </div>
-    );
+
+return (
+    <div>
+        <ButtonAppBar/>
+        <Container fixed>
+            <Grid container style={{padding: "20px"}}>
+                <AddItemForm addItem={addTodoList}/>
+            </Grid>
+            <Grid container spacing={3}>
+                {todolists.map(tdl => {
+                    let tasksForTodolist = tasks[tdl.id];
+                    if (tdl.filter === "active") {
+                        tasksForTodolist = tasks[tdl.id].filter(t => t.isDone === false);
+                    }
+                    if (tdl.filter === "completed") {
+                        tasksForTodolist = tasks[tdl.id].filter(t => t.isDone === true);
+                    }
+                    return (           //up key to parent element
+                        <Grid item key={tdl.id}>
+                            <Paper sx={{padding: "10px"}}>
+                                <Todolist title={tdl.title}
+                                          todoListID={tdl.id}
+                                          tasks={tasksForTodolist}
+                                          removeTask={removeTask}
+                                          changeFilter={changeFilter}
+                                          addTask={addTask}
+                                          changeTaskStatus={changeStatus}
+                                          removeTodolist={removeTodolist}
+                                          filter={tdl.filter}
+                                          onChangeInput={changeTaskTitle}
+                                          onChangeTDLTitle={onChangeTDLTitle}
+                                />
+                            </Paper>
+                        </Grid>
+                    )
+                })}
+            </Grid>
+        </Container>
+    </div>
+);
 }
 
 export default App;

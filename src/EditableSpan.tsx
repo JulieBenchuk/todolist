@@ -8,11 +8,11 @@ type EditableSpanPropsSpan = {
 const EditableSpan = (props: EditableSpanPropsSpan) => {
     const [title, setTitle] = useState("")
     const [editMode, setEditMode] = useState<boolean>(false)
-    const editSpanHandler = (e: MouseEvent<HTMLSpanElement>) => {
+    const editSpanHandler = () => {
         setEditMode(true)
         setTitle(props.title)
     }
-    const onBlurInput = (e: FocusEvent<HTMLSpanElement>) => {
+    const onBlurInput = () => {
         setEditMode(false)
         props.onChange(title)
     }
