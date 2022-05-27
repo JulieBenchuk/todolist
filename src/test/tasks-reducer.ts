@@ -6,9 +6,9 @@ export type ActionType = removeTaskActionType | addTaskActionType | changeTaskTi
 type removeTaskActionType = {
     type: "REMOVE-TASK"
     todolistID: string
-    taskID: string | number
+    taskID: string
 }
-export const removeTaskAC = (todolistID: string, taskID: string | number): removeTaskActionType => {
+export const removeTaskAC = (todolistID: string, taskID: string ): removeTaskActionType => {
     return {type: "REMOVE-TASK", todolistID: todolistID, taskID: taskID}
 }
 type addTaskActionType = {
