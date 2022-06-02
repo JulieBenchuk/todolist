@@ -1,4 +1,4 @@
-import React, {useReducer, useState} from 'react';
+import React, {useReducer} from 'react';
 import './App.css';
 import {TaskType, Todolist} from './Todolist';
 import {v1} from 'uuid';
@@ -80,6 +80,7 @@ function AppWithReducer() {
     function addTodoList(title: string) {
         const action = addTodolistAC(title)
         dispatchToTodolistsReducer(action)
+        dispatchToTasksReducer(action)
     }
 
     function onChangeTDLTitle(todoListID: string, newTitle: string) {
@@ -90,6 +91,7 @@ function AppWithReducer() {
     function removeTodolist(todoListID: string) {
         const action = removeTodolistAC(todoListID)
         dispatchToTodolistsReducer(action)
+        dispatchToTasksReducer(action)
     }
 
 
