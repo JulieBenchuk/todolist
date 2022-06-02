@@ -72,7 +72,7 @@ function AppWithRedux() {
     }
 
 
-return <div>
+    return <div>
         <ButtonAppBar/>
         <Container fixed>
             <Grid container style={{padding: "20px"}}>

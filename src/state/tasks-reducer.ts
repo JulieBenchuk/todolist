@@ -2,7 +2,13 @@ import {v1} from "uuid";
 import {TasksType} from "../App";
 import {addTodolistActionType, removeTodolistActionType, todolistID1, todolistID2} from "./toDoLists-reducer";
 
-export type ActionType = removeTaskActionType | addTaskActionType | changeTaskTitleActionType | changeTaskStatusActionType | addTodolistActionType | removeTodolistActionType
+export type ActionType =
+    removeTaskActionType
+    | addTaskActionType
+    | changeTaskTitleActionType
+    | changeTaskStatusActionType
+    | addTodolistActionType
+    | removeTodolistActionType
 type removeTaskActionType = {
     type: "REMOVE-TASK"
     todolistID: string
