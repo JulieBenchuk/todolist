@@ -95,8 +95,7 @@ function AppWithReducer() {
     }
 
 
-return (
-    <div>
+return <div>
         <ButtonAppBar/>
         <Container fixed>
             <Grid container style={{padding: "20px"}}>
@@ -133,7 +132,6 @@ return (
             </Grid>
         </Container>
     </div>
-);
 }
 
 export default AppWithReducer;
