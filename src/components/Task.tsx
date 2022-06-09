@@ -1,4 +1,4 @@
-import React, {ChangeEvent} from 'react';
+import React, {ChangeEvent, useCallback} from 'react';
 import {EditableSpan} from "../EditableSpan";
 import {Button} from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -11,14 +11,14 @@ type TaskPropsType = {
     changeTaskStatus: (todoListID: string, taskId: string, isDone: boolean) => void
     onChangeInput: (todoListID: string, taskId: string, newTitle: string) => void
 }
-export const Task = (props: TaskPropsType) => {
+export const Task = React.memo((props: TaskPropsType) => {
     const onClickHandler = () => props.removeTask(props.todoListID, props.task.id)
     const onChangeTaskStatusHandler = (e: ChangeEvent<HTMLInputElement>) => {
         props.changeTaskStatus(props.todoListID, props.task.id, e.currentTarget.checked);
     }
-    const onChangeInputHandler = (newTitle: string) => {
+    const onChangeInputHandler = useCallback((newTitle: string) => {
         props.onChangeInput(props.todoListID, props.task.id, newTitle)
-    }
+    }, [props.onChangeInput, props.todoListID, props.task.id ])
 
     return <li key={props.task.id} className={props.task.isDone ? "is-done" : ""}>
         <input type="checkbox"
@@ -27,4 +27,4 @@ export const Task = (props: TaskPropsType) => {
         <EditableSpan title={props.task.title} onChange={onChangeInputHandler}/>
         <Button variant="text" size="small" startIcon={<DeleteIcon/>} onClick={onClickHandler}></Button>
     </li>;
-};
+});
