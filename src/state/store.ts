@@ -1,4 +1,4 @@
-import {combineReducers, compose, createStore, legacy_createStore} from "redux";
+import {combineReducers, compose, legacy_createStore} from "redux";
 import {toDoListsReducer} from "./toDoLists-reducer";
 import {tasksReducer} from "./tasks-reducer";
 
@@ -14,7 +14,6 @@ const rootReducer = combineReducers({
 })
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
-// непосредственно создаём store
 export const store = legacy_createStore(rootReducer, composeEnhancers());
 export type AppRootState = ReturnType<typeof rootReducer>
 /*export const store = legacy_createStore(rootReducer)*/
