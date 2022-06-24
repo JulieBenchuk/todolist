@@ -30,7 +30,7 @@ export const CreateTask = () => {
 export const DeleteTask = () => {
     const [state, setState] = useState<any>(null)
     useEffect(() => {
-        taskAPI.deleteTask(todolistId, "48d4b002-d5ca-4943-b7a5-c1968729c371")
+        taskAPI.deleteTask(todolistId, "c80cfe8e-2107-4dac-abb7-b0fc10d2a9ae")
             .then((response)=>{
                 setState(response.data)
             })
@@ -41,7 +41,7 @@ export const DeleteTask = () => {
 export const UpdateTaskTitle = () => {
     const [state, setState] = useState<any>(null)
     useEffect(() => {
-        taskAPI.updateTaskTitle(todolistId, "48d4b002-d5ca-4943-b7a5-c1968729c371", "new title for this task")
+        taskAPI.updateTaskTitle(todolistId, "4f59ebab-ba2b-43e7-b01e-07e400e9d324", "new title for this task")
             .then((res)=>{
                 setState(res.data)
             })
