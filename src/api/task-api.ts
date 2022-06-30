@@ -11,7 +11,7 @@ type TaskType = {
     title: string
     todoListId: string
 }
-export type ResponseType<D> = {
+export type ResponseType<D = {}> = {
     resultCode: number
     fieldsErrors: Array<any>
     messages: Array<string>
@@ -37,7 +37,7 @@ export const taskAPI = {
         return promise
     },
     deleteTask(todolistId: string, taskId: string) {
-        const promise = instance.delete<ResponseType<{}>>(`${todolistId}/tasks/${taskId}`)
+        const promise = instance.delete<ResponseType>(`${todolistId}/tasks/${taskId}`)
         return promise
     },
     updateTaskTitle(todolistId: string, taskId: string, newTaskTitle: string) {

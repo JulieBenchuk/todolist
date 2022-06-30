@@ -1,10 +1,11 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import './App.css';
 import {TaskType, Todolist} from './Todolist';
 import {v1} from 'uuid';
 import {AddItemForm} from "./AddItemForm";
 import ButtonAppBar from "./components/ButtonAppBar";
 import {Container, Grid, Paper} from "@mui/material";
+import {todolistAPI} from "./api/todolist-api";
 
 export type FilterValuesType = "all" | "active" | "completed";
 export type todolistsType = {
@@ -89,7 +90,6 @@ function App() {
         let newTodolists = todolists.map(tl => tl.id === todoListID ? {...tl, title: newTitle} : tl)
         setTodolists(newTodolists)
     }
-
 
 
 return (
