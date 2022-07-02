@@ -1,17 +1,13 @@
-import React, {ChangeEvent, KeyboardEvent, useCallback, useState} from 'react';
-import {FilterValuesType} from './App';
+import React, {useCallback, useEffect} from 'react';
 import {AddItemForm} from "./AddItemForm";
 import {EditableSpan} from "./EditableSpan";
 import {Button} from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
 import {Task} from "./components/Task";
-
-
-export type TaskType = {
-    id: string
-    title: string
-    isDone: boolean
-}
+import {useDispatch} from "react-redux";
+import {fetchTasksThunkCreator} from "./state/tasks-reducer";
+import {FilterValuesType} from "./AppWithRedux";
+import {TaskStatuses, TaskType} from "./api/task-api";
 
 export type PropsType = {
     title: string
@@ -20,10 +16,10 @@ export type PropsType = {
     removeTask: (todoListID: string, taskId: string) => void
     changeFilter: (todoListID: string, value: FilterValuesType) => void
     addTask: (todoListID: string, title: string) => void
-    changeTaskStatus: (todoListID: string, taskId: string, isDone: boolean) => void
+    changeTaskStatus: (id: string, status: TaskStatuses, todolistId: string) => void
     removeTodolist: (todoListID: string) => void
     filter: FilterValuesType
-    onChangeInput: (todoListID: string, taskId: string, newTitle: string) => void
+    onChangeInput: (taskId: string, newTitle: string, todolistId: string) => void
     onChangeTDLTitle: (todoListID: string, newTitle: string) => void
 }
 
@@ -40,11 +36,16 @@ export const Todolist = React.memo((props: PropsType) => {
     }, [props.onChangeTDLTitle, props.todoListID])
     let tasksForTodolist = props.tasks
     if (props.filter === "active") {
-        tasksForTodolist = props.tasks.filter(t => t.isDone === false);
+        tasksForTodolist = props.tasks.filter(t => t.status === TaskStatuses.New);
     }
     if (props.filter === "completed") {
-        tasksForTodolist = props.tasks.filter(t => t.isDone === true);
+        tasksForTodolist = props.tasks.filter(t => t.status === TaskStatuses.Completed);
     }
+    const dispatch: any = useDispatch();
+    useEffect(() => {
+        dispatch(fetchTasksThunkCreator(props.todoListID))
+    }, [])
+
     return <div>
         <h3>
             <EditableSpan title={props.title} onChange={onChangeTDLTitleHandler}/>
@@ -56,9 +57,9 @@ export const Todolist = React.memo((props: PropsType) => {
             {
                 tasksForTodolist.map(t =>
                     <Task key={t.id} task={t} removeTask={props.removeTask}
-                          todoListID={props.todoListID}
+                          todolistId={props.todoListID}
                           changeTaskStatus={props.changeTaskStatus}
-                          onChangeInput={props.onChangeInput}/>
+                          changeTaskTitle={props.onChangeInput}/>
                 )
             }
         </ul>

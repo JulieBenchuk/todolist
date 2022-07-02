@@ -1,6 +1,7 @@
-import {FilterValuesType} from "../App";
 import {v1} from "uuid";
-import {TodolistType} from "../api/todolist-api";
+import {todolistAPI, TodolistType} from "../api/todolist-api";
+import {Dispatch} from "redux";
+import {FilterValuesType} from "../AppWithRedux";
 
 export type ActionType =
     removeTodolistActionType
@@ -50,11 +51,22 @@ export const setTodolistsAC = (todolists: Array<TodolistType>): SetTodoloistsAct
     return {type: "SET_TODOLIST", todolists: todolists}
 }
 
+export const fetchTodolistThunkCreator = ()=> {
+    return (dispatch: Dispatch)=> {
+        debugger
+        todolistAPI.getTodolists()
+            .then(response=>{
+                const action = setTodolistsAC(response.data);
+                dispatch(action)
+            })
+    }
+}
+
 export let todolistID1 = v1();
 export let todolistID2 = v1();
 const initialState: Array<TodolistDomainType> = [
-    /*{id: todolistId1, title: 'What to learn', filter: 'all', addedDate: '', order: 0},
-    {id: todolistId2, title: 'What to buy', filter: 'all', addedDate: '', order: 0}*/
+/*    {id: todolistID1, title: 'What to learn', filter: 'all', addedDate: '', order: 0},
+    {id: todolistID2, title: 'What to buy', filter: 'all', addedDate: '', order: 0}*/
 ]
 export const toDoListsReducer = (state: Array<TodolistDomainType> = initialState, action: ActionType): Array<TodolistDomainType> => {
     switch (action.type) {

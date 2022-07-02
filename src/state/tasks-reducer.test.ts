@@ -1,20 +1,19 @@
-
-import {TasksType} from "../App";
 import {addTaskAC, changeTaskTitleAC, removeTaskAC, tasksReducer} from "./tasks-reducer";
-import {addTodolistAC, removeTodolistAC} from "./toDoLists-reducer";
+import {addTodolistAC, removeTodolistAC, setTodolistsAC} from "./toDoLists-reducer";
 
-let startState: TasksType;
+
+let startState: any;
 beforeEach(()=>{
     startState = {
         "todolistId1": [
-            { id: "1", title: "CSS", isDone: false },
-            { id: "2", title: "JS", isDone: true },
-            { id: "3", title: "React", isDone: false }
+            { id: "1", title: "CSS", completed: false },
+            { id: "2", title: "JS", completed: true },
+            { id: "3", title: "React", completed: false }
         ],
         "todolistId2": [
-            { id: "1", title: "bread", isDone: false },
-            { id: "2", title: "milk", isDone: true },
-            { id: "3", title: "tea", isDone: false }
+            { id: "1", title: "bread", completed: false },
+            { id: "2", title: "milk", completed: true },
+            { id: "3", title: "tea", completed: false }
         ]
     };
 })
@@ -47,7 +46,6 @@ test('correct task should be added to correct array', () => {
     expect(endState["todolistId2"].length).toBe(4);
     expect(endState["todolistId2"][0].id).toBeDefined();
     expect(endState["todolistId2"][0].title).toBe("bread");
-    expect(endState["todolistId2"][0].isDone).toBe(false);
 });
 test("task title should be changed", () => {
 
@@ -84,6 +82,16 @@ test('property with todolistId should be deleted', () => {
     expect(keys.length).toBe(1);
     expect(endState["todolistId2"]).not.toBeDefined();
 });
+test("empty arrays should be added when we set todolists", ()=>{
+    const action = setTodolistsAC([
+        {id: "1", title: "What to learn",  addedDate: "", order: 0},
+        {id: "2", title: "What to buy",  addedDate: "", order: 0}
+    ]);
+    const endState = tasksReducer({}, action)
+    const keys = Object.keys(endState)
+    expect(keys.length).toBe(2)
+    expect(endState["1"]).toBeDefined()
+})
 
 
 
