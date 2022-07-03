@@ -24,14 +24,26 @@ export const setTodolistsAC = (todolists: Array<TodolistType>) => ({
     type: "SET_TODOLIST",
     todolists: todolists
 } as const)
-export const fetchTodolistThunkCreator = () => (dispatch: Dispatch) => {
+
+export const fetchTodolistThunkCreator = () => (dispatch: Dispatch<ActionType>) => {
     todolistAPI.getTodolists()
         .then(response => {
             const action = setTodolistsAC(response.data);
             dispatch(action)
         })
 }
-
+export const removeTodolistThunkCreator = (todolistID: string) => (dispatch: Dispatch<ActionType>)=> {
+    todolistAPI.deleteTodolist(todolistID)
+        .then(response => {
+            dispatch(removeTodolistAC(todolistID))
+        })
+}
+export const addTodolistThunkCreator = (title: string)=> (dispatch: Dispatch<ActionType>) => {
+    todolistAPI.createTodolist(title)
+        .then(response=> {
+            dispatch(addTodolistAC(response.data.data.item))
+        })
+}
 
 export const toDoListsReducer = (state: Array<TodolistDomainType> = initialState, action: ActionType): Array<TodolistDomainType> => {
     switch (action.type) {
