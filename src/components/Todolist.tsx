@@ -3,11 +3,11 @@ import {AddItemForm} from "./AddItemForm";
 import {EditableSpan} from "./EditableSpan";
 import {Button} from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
-import {Task} from "./components/Task";
+import {Task} from "./Task";
 import {useDispatch} from "react-redux";
-import {fetchTasksThunkCreator} from "./state/tasks-reducer";
-import {FilterValuesType} from "./AppWithRedux";
-import {TaskStatuses, TaskType} from "./api/task-api";
+import {fetchTasksThunkCreator} from "../features/TodolistsList/Todolist/tasks-reducer";
+import {FilterValuesType} from "../app/App";
+import {TaskStatuses, TaskType} from "../api/task-api";
 
 export type PropsType = {
     title: string
@@ -74,3 +74,4 @@ export const Todolist = React.memo((props: PropsType) => {
         </div>
     </div>
 })
+

@@ -1,5 +1,5 @@
 import {v1} from "uuid";
-import {taskAPI, TaskPriorities, TaskStatuses, TaskType} from "../api/task-api";
+import {taskAPI, TaskPriorities, TaskStatuses, TaskType} from "../../../api/task-api";
 import {Dispatch} from "redux";
 import {ActionType} from "./toDoLists-reducer";
 

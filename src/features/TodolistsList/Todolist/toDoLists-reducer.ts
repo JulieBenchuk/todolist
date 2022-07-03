@@ -1,7 +1,7 @@
 import {v1} from "uuid";
-import {todolistAPI, TodolistType} from "../api/todolist-api";
+import {todolistAPI, TodolistType} from "../../../api/todolist-api";
 import {Dispatch} from "redux";
-import {FilterValuesType} from "../AppWithRedux";
+import {FilterValuesType} from "../../../app/App";
 import {addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC, setTasksAC} from "./tasks-reducer";
 
 export let todolistID1 = v1();
@@ -41,7 +41,7 @@ export const removeTodolistThunkCreator = (todolistID: string) => (dispatch: Dis
 export const addTodolistThunkCreator = (title: string)=> (dispatch: Dispatch<ActionType>) => {
     todolistAPI.createTodolist(title)
         .then(response=> {
-            dispatch(addTodolistAC(response.data.data.item))
+            dispatch(addTodolistAC(response.data.data.D)) ////?????data data item?????
         })
 }
 

@@ -3,7 +3,7 @@ import { Delete } from '@mui/icons-material';
 import IconButton from '@mui/material/IconButton';
 import Checkbox from '@mui/material/Checkbox';
 import {TaskStatuses, TaskType} from "../api/task-api";
-import {EditableSpan} from "../EditableSpan";
+import {EditableSpan} from "./EditableSpan";
 
 type TaskPropsType = {
     task: TaskType
