@@ -20,16 +20,15 @@ export const changeTodolistFilterAC = (id: string, filter: FilterValuesType) => 
     id: id,
     filter: filter
 } as const)
-export const setTodolistsAC = (todolists: Array<TodolistType>) => ({
+export const setTodolistsAC = (todolists: Array<TodolistType>)=> ({
     type: "SET_TODOLIST",
     todolists: todolists
 } as const)
 
 export const fetchTodolistThunkCreator = () => (dispatch: Dispatch<ActionType>) => {
     todolistAPI.getTodolists()
-        .then(response => {
-            const action = setTodolistsAC(response.data);
-            dispatch(action)
+        .then((response) => {
+            dispatch(setTodolistsAC(response.data))
         })
 }
 export const removeTodolistThunkCreator = (todolistID: string) => (dispatch: Dispatch<ActionType>)=> {

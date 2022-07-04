@@ -1,8 +1,7 @@
 import React from 'react';
 import './App.css';
 import ButtonAppBar from "../components/ButtonAppBar";
-import {Container, Grid, Paper} from "@mui/material";
-
+import {Container} from "@mui/material";
 import TodolistsList from "../features/TodolistsList/TodolistsList";
 
 export type FilterValuesType = "all" | "active" | "completed";

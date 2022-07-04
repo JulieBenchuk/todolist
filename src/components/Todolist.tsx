@@ -24,6 +24,7 @@ export type PropsType = {
 }
 
 export const Todolist = React.memo((props: PropsType) => {
+    const dispatch: any = useDispatch();
     console.log("Todolist is called")
     const onAllClickHandler = useCallback(() => props.changeFilter(props.todoListID, "all"), [props.changeFilter, props.todoListID]);
     const onActiveClickHandler = useCallback(() => props.changeFilter(props.todoListID, "active"), [props.changeFilter, props.todoListID]);
@@ -41,7 +42,6 @@ export const Todolist = React.memo((props: PropsType) => {
     if (props.filter === "completed") {
         tasksForTodolist = props.tasks.filter(t => t.status === TaskStatuses.Completed);
     }
-    const dispatch: any = useDispatch();
     useEffect(() => {
         dispatch(fetchTasksThunkCreator(props.todoListID))
     }, [])

@@ -17,7 +17,7 @@ export type ResponseType<D> = {
 const settings = {
     withCredentials: true,
     headers: {
-        "api-key": "d3917edd-6c8c-4b8f-8499-32bfee20c9c3"
+        "api-key": "70de11b1-bf5b-4c8c-b1d9-3d688d4a8c08"
     }
 }
 const instance = axios.create({

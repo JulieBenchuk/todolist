@@ -2,11 +2,11 @@ import axios, {AxiosResponse} from 'axios';
 const settings = {
     withCredentials: true,
     headers: {
-        "api-key": "d3917edd-6c8c-4b8f-8499-32bfee20c9c3"
+        "api-key": "70de11b1-bf5b-4c8c-b1d9-3d688d4a8c08"
     }
 }
 const instance = axios.create({
-    baseURL: "https://social-network.samuraijs.com/api/1.1/todo-lists/",
+    baseURL: "https://social-network.samuraijs.com/api/1.1/todo-lists",
     ...settings
 })
 
@@ -61,19 +61,19 @@ type GetTasksResponse = {
 }
 export const taskAPI = {
     getTasks(todolistId: string) {
-        const promise = instance.get<GetTasksResponse>(`${todolistId}/tasks`)
+        const promise = instance.get<GetTasksResponse>(`/${todolistId}/tasks`)
         return promise
     },
     createTask(todolistId: string, taskTitle: string) {
-        const promise = instance.post<{ title: string }, AxiosResponse<ResponseType<{ item: TaskType }>>>(`${todolistId}/tasks`, {title: taskTitle})
+        const promise = instance.post<{ title: string }, AxiosResponse<ResponseType<{ item: TaskType }>>>(`/${todolistId}/tasks`, {title: taskTitle})
         return promise
     },
     deleteTask(todolistId: string, taskId: string) {
-        const promise = instance.delete<ResponseType>(`${todolistId}/tasks/${taskId}`)
+        const promise = instance.delete<ResponseType>(`/${todolistId}/tasks/${taskId}`)
         return promise
     },
     updateTask(todolistId: string, taskId: string, newTaskTitle: string) {
-        const promise = instance.put<UpdateTaskModelType, AxiosResponse<ResponseType<{ item: TaskType }>>>(`${todolistId}/tasks/${taskId}`, {title: newTaskTitle})
+        const promise = instance.put<UpdateTaskModelType, AxiosResponse<ResponseType<{ item: TaskType }>>>(`/${todolistId}/tasks/${taskId}`, {title: newTaskTitle})
         return promise
     }
 }

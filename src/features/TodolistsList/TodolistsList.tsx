@@ -7,18 +7,19 @@ import {AppRootState} from "../../app/store";
 import {
     addTodolistAC,
     changeTodolistFilterAC,
-    changeTodolistTitleAC, fetchTodolistThunkCreator, removeTodolistAC,
+    changeTodolistTitleAC, fetchTodolistThunkCreator, removeTodolistAC, setTodolistsAC,
     TodolistDomainType
 } from "./Todolist/toDoLists-reducer";
 import {
-    addTaskAC,
+    addTaskAC, addTaskThunkCreator,
     changeTaskStatusAC,
     changeTaskTitleAC,
-    removeTaskAC,
+    removeTaskAC, removeTaskThunkCreator,
     TasksStateType
 } from "./Todolist/tasks-reducer";
-import {TaskStatuses} from "../../api/task-api";
+import {TaskStatuses, TaskType} from "../../api/task-api";
 import {FilterValuesType} from "../../app/App";
+
 
 const TodolistsList = () => {
     const dispatch: any = useDispatch();
@@ -27,12 +28,12 @@ const TodolistsList = () => {
 
 /// fn for tasks
     const removeTask = useCallback((todoListID: string, id: string) => {
-        const action = removeTaskAC(todoListID, id)
+        const action = removeTaskThunkCreator(todoListID, id)
         dispatch(action)
     }, [])
 
-    const addTask = useCallback((todoListID: string, title: string) => {
-        const action = addTaskAC(todoListID, title)
+    const addTask = useCallback((todolistID: string, title: string) => {
+        const action = addTaskThunkCreator(todolistID, title)
         dispatch(action)
     }, [])
 
@@ -66,8 +67,9 @@ const TodolistsList = () => {
         const action = removeTodolistAC(todoListID)
         dispatch(action)
     }, [])
+
     useEffect(() => {
-        dispatch(fetchTodolistThunkCreator)
+        dispatch(fetchTodolistThunkCreator())
     }, [])
 
 
