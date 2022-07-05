@@ -3,6 +3,7 @@ import {taskAPI, TaskPriorities, TaskStatuses, TaskType} from "../../../api/task
 import {Dispatch} from "redux";
 import {ActionType} from "./toDoLists-reducer";
 import {AppRootState} from "../../../app/store";
+import {string} from "prop-types";
 
 export const removeTaskAC = (todolistID: string, taskID: string) => ({
     type: "REMOVE-TASK",
@@ -15,9 +16,9 @@ export const addTaskAC = (task: TaskType) => ({
 } as const)
 export const changeTaskTitleAC = (todolistID: string, taskID: string, title: string) => ({
     type: "CHANGE-TASK-TITLE",
+    title: title,
     todolistID: todolistID,
     taskID: taskID,
-    title: title
 } as const)
 export const changeTaskStatusAC = (todolistID: string, status: TaskStatuses, taskID: string) => ({
     type: "CHANGE-TASK-STATUS",
@@ -50,13 +51,13 @@ export const addTaskThunkCreator = (todolistID: string, title: string) => (dispa
             dispatch(addTaskAC(response.data.data.item))
         })
 }
-export const updateTaskStatusThunkCreator = (todolistID: string, taskID: string, title: string) => (dispatch: Dispatch<ActionType>, getState: () => AppRootState) => {
-    /*const allTasksFromState = getState().tasks
+export const changeTaskStatusThunkCreator = (todolistID: string, taskID: string, status: TaskStatuses) => (dispatch: Dispatch<ActionType>, getState: () => AppRootState) => {
+    const allTasksFromState = getState().tasks
     const tasksForCurrentTodo = allTasksFromState[todolistID]
     const currentTask = tasksForCurrentTodo.find(t => t.id === taskID)
 
     if (currentTask) {
-        taskAPI.updateTaskTitle(todolistID, taskID, {
+        taskAPI.updateTask(todolistID, taskID, {
             title: currentTask.title,
             startDate: currentTask.startDate,
             priority: currentTask.priority,
@@ -64,10 +65,14 @@ export const updateTaskStatusThunkCreator = (todolistID: string, taskID: string,
             deadline: currentTask.deadline,
             status: status
         })
-            .then(response => {
-                dispatch(changeTaskTitleAC(todolistID, taskID, title))
+            .then(() => {
+                const action = changeTaskStatusAC(todolistID, status, taskID)
+                dispatch(action)
             })
-    }*/
+    } else {
+        console.warn("Task is not found")
+        return
+    }
 }
 
 const initialState: TasksStateType = {}

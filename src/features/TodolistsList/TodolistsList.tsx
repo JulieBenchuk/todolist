@@ -5,15 +5,9 @@ import {Todolist} from "../../components/Todolist";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootState} from "../../app/store";
 import {
-    addTodolistAC,
-    addTodolistThunkCreator,
+    addTodolistAC, addTodolistThunkCreator,
     changeTodolistFilterAC,
-    changeTodolistTitleAC,
-    changeTodolistTitleThunkCreator,
-    fetchTodolistThunkCreator,
-    removeTodolistAC,
-    removeTodolistThunkCreator,
-    setTodolistsAC,
+    changeTodolistTitleAC, fetchTodolistThunkCreator, removeTodolistAC, removeTodolistThunkCreator, setTodolistsAC,
     TodolistDomainType
 } from "./Todolist/toDoLists-reducer";
 import {
@@ -21,7 +15,7 @@ import {
     changeTaskStatusAC,
     changeTaskTitleAC,
     removeTaskAC, removeTaskThunkCreator,
-    TasksStateType, updateTaskStatusThunkCreator
+    TasksStateType, changeTaskStatusThunkCreator
 } from "./Todolist/tasks-reducer";
 import {TaskStatuses, TaskType} from "../../api/task-api";
 import {FilterValuesType} from "../../app/App";
@@ -43,13 +37,13 @@ const TodolistsList = () => {
         dispatch(action)
     }, [])
 
-    const changeStatus = useCallback(function (id: string, status: TaskStatuses, todolistId: string) {
-        const action = changeTaskStatusAC(id, status, todolistId);
+    const changeStatus = useCallback(function (todolistId: string, id: string, status: TaskStatuses) {
+        const action = changeTaskStatusThunkCreator(todolistId, id, status);
         dispatch(action);
     }, []);
 
     const changeTaskTitle = useCallback((todolistID: string, taskID: string, newTitle: string) => {
-        const action = updateTaskStatusThunkCreator(todolistID, taskID, newTitle)
+        const action = changeTaskTitleAC(todolistID, taskID, newTitle)
         dispatch(action)
     }, [])
 
@@ -65,7 +59,7 @@ const TodolistsList = () => {
     }, [])
 
     const onChangeTDLTitle = useCallback((todoListID: string, newTitle: string) => {
-        const action = changeTodolistTitleThunkCreator(todoListID, newTitle)
+        const action = changeTodolistTitleAC(todoListID, newTitle)
         dispatch(action)
     }, [])
 
