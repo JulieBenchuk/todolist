@@ -72,7 +72,7 @@ export const taskAPI = {
         const promise = instance.delete<ResponseType>(`/${todolistId}/tasks/${taskId}`)
         return promise
     },
-    updateTask(todolistId: string, taskId: string, newTaskTitle: string) {
+    updateTaskTitle(todolistId: string, taskId: string, newTaskTitle: string) {
         const promise = instance.put<UpdateTaskModelType, AxiosResponse<ResponseType<{ item: TaskType }>>>(`/${todolistId}/tasks/${taskId}`, {title: newTaskTitle})
         return promise
     }

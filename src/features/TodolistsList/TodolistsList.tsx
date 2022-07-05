@@ -6,8 +6,14 @@ import {useDispatch, useSelector} from "react-redux";
 import {AppRootState} from "../../app/store";
 import {
     addTodolistAC,
+    addTodolistThunkCreator,
     changeTodolistFilterAC,
-    changeTodolistTitleAC, fetchTodolistThunkCreator, removeTodolistAC, setTodolistsAC,
+    changeTodolistTitleAC,
+    changeTodolistTitleThunkCreator,
+    fetchTodolistThunkCreator,
+    removeTodolistAC,
+    removeTodolistThunkCreator,
+    setTodolistsAC,
     TodolistDomainType
 } from "./Todolist/toDoLists-reducer";
 import {
@@ -15,7 +21,7 @@ import {
     changeTaskStatusAC,
     changeTaskTitleAC,
     removeTaskAC, removeTaskThunkCreator,
-    TasksStateType
+    TasksStateType, updateTaskStatusThunkCreator
 } from "./Todolist/tasks-reducer";
 import {TaskStatuses, TaskType} from "../../api/task-api";
 import {FilterValuesType} from "../../app/App";
@@ -43,7 +49,7 @@ const TodolistsList = () => {
     }, []);
 
     const changeTaskTitle = useCallback((todolistID: string, taskID: string, newTitle: string) => {
-        const action = changeTaskTitleAC(todolistID, taskID, newTitle)
+        const action = updateTaskStatusThunkCreator(todolistID, taskID, newTitle)
         dispatch(action)
     }, [])
 
@@ -54,17 +60,17 @@ const TodolistsList = () => {
     }, [])
 
     const addTodoList = useCallback((title: string) => {
-        const action = addTodolistAC(title)
+        const action = addTodolistThunkCreator(title)
         dispatch(action)
     }, [])
 
     const onChangeTDLTitle = useCallback((todoListID: string, newTitle: string) => {
-        const action = changeTodolistTitleAC(todoListID, newTitle)
+        const action = changeTodolistTitleThunkCreator(todoListID, newTitle)
         dispatch(action)
     }, [])
 
     const removeTodolist = useCallback((todoListID: string) => {
-        const action = removeTodolistAC(todoListID)
+        const action = removeTodolistThunkCreator(todoListID)
         dispatch(action)
     }, [])
 

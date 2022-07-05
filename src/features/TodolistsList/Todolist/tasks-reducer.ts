@@ -2,6 +2,7 @@ import {v1} from "uuid";
 import {taskAPI, TaskPriorities, TaskStatuses, TaskType} from "../../../api/task-api";
 import {Dispatch} from "redux";
 import {ActionType} from "./toDoLists-reducer";
+import {AppRootState} from "../../../app/store";
 
 export const removeTaskAC = (todolistID: string, taskID: string) => ({
     type: "REMOVE-TASK",
@@ -46,14 +47,27 @@ export const removeTaskThunkCreator = (taskID: string, todolistID: string) => (d
 export const addTaskThunkCreator = (todolistID: string, title: string) => (dispatch: Dispatch<ActionType>) => {
     taskAPI.createTask(todolistID, title)
         .then(response => {
-            dispatch(addTaskAC( response.data.data.item))
+            dispatch(addTaskAC(response.data.data.item))
         })
 }
-export const updateTaskThunkCreator = (todolistID: string, taskID: string, title: string) => (dispatch: Dispatch<ActionType>) => {
-    taskAPI.updateTask(todolistID, taskID, title)
-        .then(response => {
-            dispatch(changeTaskTitleAC(todolistID, taskID, title))
+export const updateTaskStatusThunkCreator = (todolistID: string, taskID: string, title: string) => (dispatch: Dispatch<ActionType>, getState: () => AppRootState) => {
+    /*const allTasksFromState = getState().tasks
+    const tasksForCurrentTodo = allTasksFromState[todolistID]
+    const currentTask = tasksForCurrentTodo.find(t => t.id === taskID)
+
+    if (currentTask) {
+        taskAPI.updateTaskTitle(todolistID, taskID, {
+            title: currentTask.title,
+            startDate: currentTask.startDate,
+            priority: currentTask.priority,
+            description: currentTask.description,
+            deadline: currentTask.deadline,
+            status: status
         })
+            .then(response => {
+                dispatch(changeTaskTitleAC(todolistID, taskID, title))
+            })
+    }*/
 }
 
 const initialState: TasksStateType = {}
@@ -75,8 +89,9 @@ export const tasksReducer = (state: TasksStateType = initialState, action: Actio
                     title: action.title
                 } : t)
             };
-        case "ADD-TODOLIST":
-            return {...state, [action.todolistID]: []};
+        case "ADD-TODOLIST":{
+            return {...state, [action.todolist.id]: []};
+        }
         case "CHANGE-TASK-STATUS":
             return {
                 ...state, [action.todolistID]: state[action.todolistID].map(t => t.id === action.taskID ? {

@@ -9,7 +9,7 @@ export let todolistID2 = v1();
 const initialState: Array<TodolistDomainType> = []
 
 export const removeTodolistAC = (id: string) => ({type: "REMOVE-TODOLIST", id: id} as const)
-export const addTodolistAC = (title: string) => ({type: "ADD-TODOLIST", todolistID: v1(), title: title} as const)
+export const addTodolistAC = (todolist: TodolistType) => ({type: "ADD-TODOLIST", todolist: todolist} as const)
 export const changeTodolistTitleAC = (id: string, title: string) => ({
     type: "CHANGE-TODOLIST-TITLE",
     id: id,
@@ -40,7 +40,13 @@ export const removeTodolistThunkCreator = (todolistID: string) => (dispatch: Dis
 export const addTodolistThunkCreator = (title: string)=> (dispatch: Dispatch<ActionType>) => {
     todolistAPI.createTodolist(title)
         .then(response=> {
-            dispatch(addTodolistAC(response.data.data.D)) ////?????data data item?????
+            dispatch(addTodolistAC(response.data.data.item))
+        })
+}
+export const changeTodolistTitleThunkCreator = (todolistID: string, title: string) => (dispatch: Dispatch<ActionType>)=> {
+    todolistAPI.updateTodolistTitle(todolistID, title)
+        .then(response => {
+            dispatch(changeTodolistTitleAC(todolistID, title))
         })
 }
 
@@ -48,14 +54,11 @@ export const toDoListsReducer = (state: Array<TodolistDomainType> = initialState
     switch (action.type) {
         case "REMOVE-TODOLIST":
             return state.filter(t => t.id !== action.id);
-        case "ADD-TODOLIST":
-            return [{
-                id: action.todolistID,
-                title: action.title,
-                filter: 'all',
-                addedDate: '',
-                order: 0
-            }, ...state]
+        case "ADD-TODOLIST":{
+            const newTodolist: TodolistDomainType = {...action.todolist, filter: "all"}
+            return [newTodolist, ...state]
+        }
+
         case "CHANGE-TODOLIST-TITLE":
             return state.map(t => t.id === action.id ? {...t, title: action.title} : t);
         case "CHANGE-TODOLIST-FILTER":
