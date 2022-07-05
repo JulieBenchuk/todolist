@@ -7,7 +7,7 @@ import {AppRootState} from "../../app/store";
 import {
     addTodolistThunkCreator,
     changeTodolistFilterAC,
-    changeTodolistTitleAC, fetchTodolistThunkCreator, removeTodolistThunkCreator,
+    changeTodolistTitleAC, changeTodolistTitleThunkCreator, fetchTodolistThunkCreator, removeTodolistThunkCreator,
     TodolistDomainType
 } from "./Todolist/toDoLists-reducer";
 import {
@@ -57,7 +57,7 @@ const TodolistsList = () => {
     }, [])
 
     const onChangeTDLTitle = useCallback((todoListID: string, newTitle: string) => {
-        const action = changeTodolistTitleAC(todoListID, newTitle)
+        const action = changeTodolistTitleThunkCreator(todoListID, newTitle)
         dispatch(action)
     }, [])
 
