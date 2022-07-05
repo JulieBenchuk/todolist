@@ -9,7 +9,7 @@ type TaskPropsType = {
     task: TaskType
     todolistId: string
     changeTaskStatus: (todolistId: string, id: string, status: TaskStatuses) => void
-    changeTaskTitle: (taskId: string, newTitle: string, todolistId: string) => void
+    changeTaskTitle: (todolistId: string, taskId: string, newTitle: string ) => void
     removeTask: (taskId: string, todolistId: string) => void
 }
 export const Task = React.memo((props: TaskPropsType) => {
@@ -21,7 +21,7 @@ export const Task = React.memo((props: TaskPropsType) => {
     }, [props.task.id, props.todolistId]);
 
     const onTitleChangeHandler = useCallback((newValue: string) => {
-        props.changeTaskTitle(props.task.id, newValue, props.todolistId)
+        props.changeTaskTitle( props.todolistId, props.task.id, newValue)
     }, [props.task.id, props.todolistId]);
 
     return <div key={props.task.id} className={props.task.status === TaskStatuses.Completed ? 'is-done' : ''}>

@@ -1,4 +1,4 @@
-import {addTaskAC, changeTaskTitleAC, removeTaskAC, tasksReducer} from "./tasks-reducer";
+import {addTaskAC, updateTaskAC, removeTaskAC, tasksReducer} from "./tasks-reducer";
 import {addTodolistAC, removeTodolistAC, setTodolistsAC} from "./toDoLists-reducer";
 import {TaskStatuses} from "../../../api/task-api";
 
@@ -61,7 +61,7 @@ test('correct task should be added to correct array', () => {
 });
 test("task title should be changed", () => {
 
-    const action = changeTaskTitleAC("todolistId2", "3", "coffee");
+    const action = updateTaskAC("todolistId2", "3", "coffee");
     const endState = tasksReducer(startState, action);
     expect(endState["todolistId2"][2].title).toBe("coffee");
     expect(endState["todolistId1"][2].title).toBe("React");

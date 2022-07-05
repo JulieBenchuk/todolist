@@ -5,19 +5,17 @@ import {Todolist} from "../../components/Todolist";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootState} from "../../app/store";
 import {
-    addTodolistAC, addTodolistThunkCreator,
+    addTodolistThunkCreator,
     changeTodolistFilterAC,
-    changeTodolistTitleAC, fetchTodolistThunkCreator, removeTodolistAC, removeTodolistThunkCreator, setTodolistsAC,
+    changeTodolistTitleAC, fetchTodolistThunkCreator, removeTodolistThunkCreator,
     TodolistDomainType
 } from "./Todolist/toDoLists-reducer";
 import {
-    addTaskAC, addTaskThunkCreator,
-    changeTaskStatusAC,
-    changeTaskTitleAC,
-    removeTaskAC, removeTaskThunkCreator,
-    TasksStateType, changeTaskStatusThunkCreator
+    addTaskThunkCreator,
+   removeTaskThunkCreator,
+    TasksStateType, updateTaskThunkCreator
 } from "./Todolist/tasks-reducer";
-import {TaskStatuses, TaskType} from "../../api/task-api";
+import {TaskStatuses} from "../../api/task-api";
 import {FilterValuesType} from "../../app/App";
 
 
@@ -38,12 +36,12 @@ const TodolistsList = () => {
     }, [])
 
     const changeStatus = useCallback(function (todolistId: string, id: string, status: TaskStatuses) {
-        const action = changeTaskStatusThunkCreator(todolistId, id, status);
+        const action = updateTaskThunkCreator(todolistId, id, {status});
         dispatch(action);
     }, []);
 
-    const changeTaskTitle = useCallback((todolistID: string, taskID: string, newTitle: string) => {
-        const action = changeTaskTitleAC(todolistID, taskID, newTitle)
+    const changeTask = useCallback((todolistID: string, taskID: string, title: string) => {
+        const action = updateTaskThunkCreator(todolistID, taskID, {title})
         dispatch(action)
     }, [])
 
@@ -93,7 +91,7 @@ const TodolistsList = () => {
                                           changeTaskStatus={changeStatus}
                                           removeTodolist={removeTodolist}
                                           filter={tdl.filter}
-                                          onChangeInput={changeTaskTitle}
+                                          onChangeInput={changeTask}
                                           onChangeTDLTitle={onChangeTDLTitle}
                                 />
                             </Paper>

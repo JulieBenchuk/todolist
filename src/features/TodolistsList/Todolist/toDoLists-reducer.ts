@@ -2,7 +2,7 @@ import {v1} from "uuid";
 import {todolistAPI, TodolistType} from "../../../api/todolist-api";
 import {Dispatch} from "redux";
 import {FilterValuesType} from "../../../app/App";
-import {addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC, setTasksAC} from "./tasks-reducer";
+import {addTaskAC, updateTaskAC, removeTaskAC, setTasksAC} from "./tasks-reducer";
 
 export let todolistID1 = v1();
 export let todolistID2 = v1();
@@ -74,8 +74,7 @@ export const toDoListsReducer = (state: Array<TodolistDomainType> = initialState
 export type ActionType =
     | ReturnType<typeof removeTaskAC>
     | ReturnType<typeof addTaskAC>
-    | ReturnType<typeof changeTaskTitleAC>
-    | ReturnType<typeof changeTaskStatusAC>
+    | ReturnType<typeof updateTaskAC>
     | ReturnType<typeof setTasksAC>
     | ReturnType<typeof removeTodolistAC>
     | ReturnType<typeof addTodolistAC>

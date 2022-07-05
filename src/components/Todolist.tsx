@@ -19,7 +19,7 @@ export type PropsType = {
     changeTaskStatus: (todolistId: string, id: string, status: TaskStatuses) => void
     removeTodolist: (todoListID: string) => void
     filter: FilterValuesType
-    onChangeInput: (taskId: string, newTitle: string, todolistId: string) => void
+    onChangeInput: (todolistId: string, taskId: string, newTitle: string) => void
     onChangeTDLTitle: (todoListID: string, newTitle: string) => void
 }
 
