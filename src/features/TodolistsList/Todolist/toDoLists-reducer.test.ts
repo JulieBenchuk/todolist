@@ -30,8 +30,8 @@ test('correct todolist should be removed', () => {
 });
 
 test('correct todolist should be added', () => {
-
-    const endState = toDoListsReducer(startState, addTodolistAC(newTodolistTitle))
+    const newTodolist: TodolistDomainType = {id: v1(), title: newTodolistTitle, order: 0, filter: "all", addedDate: ""}
+    const endState = toDoListsReducer(startState, addTodolistAC(newTodolist))
 
     expect(endState.length).toBe(3);
     expect(endState[0].title).toBe(newTodolistTitle);
@@ -61,15 +61,6 @@ test('correct filter of todolist should be changed', () => {
 });
 
 
-beforeEach(() => {
-    todolistId1 = v1();
-    todolistId2 = v1();
-    startState= [
-        {id: todolistId1, title: "What to hear", filter: "all", addedDate: "", order: 0},
-        {id: todolistId2, title: "What to read", filter: "all", addedDate: "", order: 0}
-    ]
-
-})
 test("correct todolilists should be set", () => {
     const action = setTodolistsAC(startState);
     const endState = toDoListsReducer(startState, action)

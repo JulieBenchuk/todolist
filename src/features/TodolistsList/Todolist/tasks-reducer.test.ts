@@ -1,6 +1,7 @@
 import {addTaskAC, updateTaskAC, removeTaskAC, tasksReducer} from "./tasks-reducer";
-import {addTodolistAC, removeTodolistAC, setTodolistsAC} from "./toDoLists-reducer";
+import {addTodolistAC, removeTodolistAC, setTodolistsAC, TodolistDomainType} from "./toDoLists-reducer";
 import {TaskStatuses} from "../../../api/task-api";
+import {v1} from "uuid";
 
 
 let startState: any;
@@ -25,21 +26,19 @@ test('correct task should be deleted from correct array', () => {
 
     expect(endState).toEqual({
         "todolistId1": [
-            { id: "1", title: "CSS", isDone: false },
-            { id: "2", title: "JS", isDone: true },
-            { id: "3", title: "React", isDone: false }
+            { id: "1", title: "CSS", completed: false },
+            { id: "2", title: "JS", completed: true },
+            { id: "3", title: "React", completed: false }
         ],
         "todolistId2": [
-            { id: "1", title: "bread", isDone: false },
-            { id: "3", title: "tea", isDone: false }
+            { id: "1", title: "bread", completed: false },
+            { id: "3", title: "tea", completed: false }
         ]
     });
 
 });
 
 test('correct task should be added to correct array', () => {
-
-   /* const action = addTaskAC("todolistId2", "juice");*/
     const action = addTaskAC({
         todoListId: "todolistId2",
         id: "blabla",
@@ -57,21 +56,19 @@ test('correct task should be added to correct array', () => {
 
     expect(endState["todolistId1"].length).toBe(3);
     expect(endState["todolistId2"].length).toBe(4);
-    expect(endState["todolistId2"][0].title).toBe("bread");
+    expect(endState["todolistId2"][0].title).toBe("juice");
 });
 test("task title should be changed", () => {
 
-    const action = updateTaskAC("todolistId2", "3", "coffee");
+    const action = updateTaskAC("todolistId2", "3", {title: "coffee"});
     const endState = tasksReducer(startState, action);
     expect(endState["todolistId2"][2].title).toBe("coffee");
     expect(endState["todolistId1"][2].title).toBe("React");
 });
 test('new array should be added when new todolist is added', () => {
-
-    const action = addTodolistAC("new todolist");
-
+    const newTodolist: TodolistDomainType = {id: v1(), title: "new todolist", order: 0, filter: "all", addedDate: ""}
+    const action = addTodolistAC(newTodolist);
     const endState = tasksReducer(startState, action)
-
 
     const keys = Object.keys(endState);
     const newKey = keys.find(k => k != "todolistId1" && k != "todolistId2");

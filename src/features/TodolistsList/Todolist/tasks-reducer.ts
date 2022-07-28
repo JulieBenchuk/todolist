@@ -5,7 +5,7 @@ import {
     UpdateTaskModelType
 } from "../../../api/task-api";
 import {Dispatch} from "redux";
-import {ActionType} from "./toDoLists-reducer";
+import {ActionTypes} from "./toDoLists-reducer";
 import {AppRootState} from "../../../app/store";
 
 
@@ -24,32 +24,27 @@ export const updateTaskAC = (todolistID: string, taskID: string, model: UpdateTa
     taskID: taskID,
     model: model
 } as const)
-/*export const changeTaskStatusAC = (todolistID: string, status: TaskStatuses, taskID: string) => ({
-    type: "CHANGE-TASK-STATUS",
-    todolistID: todolistID,
-    status: status,
-    taskID: taskID
-} as const)*/
+
 export const setTasksAC = (tasks: Array<TaskType>, todolistID: string) => ({
     type: "SET_TASK",
     tasks: tasks,
     todolistID: todolistID
 } as const)
 
-export const fetchTasksThunkCreator = (todolistID: string) => (dispatch: Dispatch<ActionType>) => {
+export const fetchTasksThunkCreator = (todolistID: string) => (dispatch: Dispatch<ActionTypes>) => {
     taskAPI.getTasks(todolistID)
         .then((response) => {
             const action = setTasksAC(response.data.items, todolistID);
             dispatch(action)
         })
 }
-export const removeTaskThunkCreator = (taskID: string, todolistID: string) => (dispatch: Dispatch<ActionType>) => {
+export const removeTaskThunkCreator = (taskID: string, todolistID: string) => (dispatch: Dispatch<ActionTypes>) => {
     taskAPI.deleteTask(todolistID, taskID)
         .then(response => {
             dispatch(removeTaskAC(todolistID, taskID))
         })
 }
-export const addTaskThunkCreator = (todolistID: string, title: string) => (dispatch: Dispatch<ActionType>) => {
+export const addTaskThunkCreator = (todolistID: string, title: string) => (dispatch: Dispatch<ActionTypes>) => {
     taskAPI.createTask(todolistID, title)
         .then(response => {
             dispatch(addTaskAC(response.data.data.item))
@@ -82,7 +77,7 @@ export const updateTaskThunkCreator = (todolistID: string, taskID: string, domai
 }
 
 const initialState: TasksStateType = {}
-export const tasksReducer = (state: TasksStateType = initialState, action: ActionType): TasksStateType => {
+export const tasksReducer = (state: TasksStateType = initialState, action: ActionTypes): TasksStateType => {
     switch (action.type) {
         case "REMOVE-TASK":
             return {...state, [action.todolistID]: state[action.todolistID].filter(t => t.id !== action.taskID)};

@@ -25,32 +25,32 @@ export const setTodolistsAC = (todolists: Array<TodolistType>)=> ({
     todolists: todolists
 } as const)
 
-export const fetchTodolistThunkCreator = () => (dispatch: Dispatch<ActionType>) => {
+export const fetchTodolistThunkCreator = () => (dispatch: Dispatch<ActionTypes>) => {
     todolistAPI.getTodolists()
         .then((response) => {
             dispatch(setTodolistsAC(response.data))
         })
 }
-export const removeTodolistThunkCreator = (todolistID: string) => (dispatch: Dispatch<ActionType>)=> {
+export const removeTodolistThunkCreator = (todolistID: string) => (dispatch: Dispatch<ActionTypes>)=> {
     todolistAPI.deleteTodolist(todolistID)
         .then(response => {
             dispatch(removeTodolistAC(todolistID))
         })
 }
-export const addTodolistThunkCreator = (title: string)=> (dispatch: Dispatch<ActionType>) => {
+export const addTodolistThunkCreator = (title: string)=> (dispatch: Dispatch<ActionTypes>) => {
     todolistAPI.createTodolist(title)
         .then(response=> {
             dispatch(addTodolistAC(response.data.data.item))
         })
 }
-export const changeTodolistTitleThunkCreator = (todolistID: string, title: string) => (dispatch: Dispatch<ActionType>)=> {
+export const changeTodolistTitleThunkCreator = (todolistID: string, title: string) => (dispatch: Dispatch<ActionTypes>)=> {
     todolistAPI.updateTodolistTitle(todolistID, title)
         .then(response => {
             dispatch(changeTodolistTitleAC(todolistID, title))
         })
 }
 
-export const toDoListsReducer = (state: Array<TodolistDomainType> = initialState, action: ActionType): Array<TodolistDomainType> => {
+export const toDoListsReducer = (state: Array<TodolistDomainType> = initialState, action: ActionTypes): Array<TodolistDomainType> => {
     switch (action.type) {
         case "REMOVE-TODOLIST":
             return state.filter(t => t.id !== action.id);
@@ -71,7 +71,7 @@ export const toDoListsReducer = (state: Array<TodolistDomainType> = initialState
 }
 
 //types
-export type ActionType =
+export type ActionTypes =
     | ReturnType<typeof removeTaskAC>
     | ReturnType<typeof addTaskAC>
     | ReturnType<typeof updateTaskAC>
