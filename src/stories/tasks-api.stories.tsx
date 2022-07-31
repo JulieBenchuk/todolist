@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react'
-import {taskAPI} from "../api/task-api";
+import {taskAPI, TaskPriorities} from "../api/task-api";
 
 export default {
     title: 'API'
@@ -41,7 +41,7 @@ export const DeleteTask = () => {
 export const UpdateTaskTitle = () => {
     const [state, setState] = useState<any>(null)
     useEffect(() => {
-        taskAPI.updateTask(todolistId, "855a0213-67e3-41ef-8a72-7634c0c28b0e", "SEEEEEE")
+        taskAPI.updateTask(todolistId, "855a0213-67e3-41ef-8a72-7634c0c28b0e", {title: "SEEEEEE", deadline: "", description: "", status: state.status, priority: TaskPriorities.Hi, startDate: ""})
             .then((res)=>{
                 setState(res.data)
             })

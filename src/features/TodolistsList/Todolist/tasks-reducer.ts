@@ -5,8 +5,7 @@ import {
     UpdateTaskModelType
 } from "../../../api/task-api";
 import {Dispatch} from "redux";
-import {ActionTypes} from "./toDoLists-reducer";
-import {AppRootState} from "../../../app/store";
+import {AppActionTypes, AppRootState, AppThunkType} from "../../../app/store";
 
 
 export const removeTaskAC = (todolistID: string, taskID: string) => ({
@@ -31,26 +30,26 @@ export const setTasksAC = (tasks: Array<TaskType>, todolistID: string) => ({
     todolistID: todolistID
 } as const)
 
-export const fetchTasksThunkCreator = (todolistID: string) => (dispatch: Dispatch<ActionTypes>) => {
+export const fetchTasksThunkCreator = (todolistID: string): AppThunkType => (dispatch) => {
     taskAPI.getTasks(todolistID)
         .then((response) => {
             const action = setTasksAC(response.data.items, todolistID);
             dispatch(action)
         })
 }
-export const removeTaskThunkCreator = (taskID: string, todolistID: string) => (dispatch: Dispatch<ActionTypes>) => {
+export const removeTaskThunkCreator = (taskID: string, todolistID: string): AppThunkType => (dispatch) => {
     taskAPI.deleteTask(todolistID, taskID)
         .then(response => {
             dispatch(removeTaskAC(todolistID, taskID))
         })
 }
-export const addTaskThunkCreator = (todolistID: string, title: string) => (dispatch: Dispatch<ActionTypes>) => {
+export const addTaskThunkCreator = (todolistID: string, title: string): AppThunkType => (dispatch) => {
     taskAPI.createTask(todolistID, title)
         .then(response => {
             dispatch(addTaskAC(response.data.data.item))
         })
 }
-export const updateTaskThunkCreator = (todolistID: string, taskID: string, domainModel: UpdateTaskDomainModelType) => (dispatch: Dispatch, getState: () => AppRootState) => {
+export const updateTaskThunkCreator = (todolistID: string, taskID: string, domainModel: UpdateTaskDomainModelType): AppThunkType => (dispatch, getState: () => AppRootState) => {
     const allTasksFromState = getState().tasks
     const tasksForCurrentTodo = allTasksFromState[todolistID]
     const currentTask = tasksForCurrentTodo.find(t => t.id === taskID)
@@ -63,7 +62,6 @@ export const updateTaskThunkCreator = (todolistID: string, taskID: string, domai
             deadline: currentTask.deadline,
             status: currentTask.status,
             ...domainModel
-
         }
 
         taskAPI.updateTask(todolistID, taskID, apiModel)
@@ -77,7 +75,7 @@ export const updateTaskThunkCreator = (todolistID: string, taskID: string, domai
 }
 
 const initialState: TasksStateType = {}
-export const tasksReducer = (state: TasksStateType = initialState, action: ActionTypes): TasksStateType => {
+export const tasksReducer = (state: TasksStateType = initialState, action: AppActionTypes): TasksStateType => {
     switch (action.type) {
         case "REMOVE-TASK":
             return {...state, [action.todolistID]: state[action.todolistID].filter(t => t.id !== action.taskID)};
