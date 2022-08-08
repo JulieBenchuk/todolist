@@ -13,11 +13,13 @@ import {
     updateTaskAC
 } from "../features/TodolistsList/Todolist/tasks-reducer";
 import thunk, {ThunkAction} from "redux-thunk";
+import {appReducer} from "./app-reducer";
 
 
 const rootReducer = combineReducers({
     todolists: toDoListsReducer,
-    tasks: tasksReducer
+    tasks: tasksReducer,
+    app: appReducer
 })
 
 
