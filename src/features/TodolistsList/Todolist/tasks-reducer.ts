@@ -6,6 +6,7 @@ import {
 } from "../../../api/task-api";
 import {Dispatch} from "redux";
 import {AppActionTypes, AppRootState, AppThunkType} from "../../../app/store";
+import {setErrorAC, setStatusAC} from "../../../app/app-reducer";
 
 
 export const removeTaskAC = (todolistID: string, taskID: string) => ({
@@ -31,22 +32,39 @@ export const setTasksAC = (tasks: Array<TaskType>, todolistID: string) => ({
 } as const)
 
 export const fetchTasksThunkCreator = (todolistID: string): AppThunkType => (dispatch) => {
+    dispatch(setStatusAC("loading"))
     taskAPI.getTasks(todolistID)
         .then((response) => {
             const action = setTasksAC(response.data.items, todolistID);
             dispatch(action)
+            dispatch(setStatusAC("succeeded"))
         })
 }
 export const removeTaskThunkCreator = (taskID: string, todolistID: string): AppThunkType => (dispatch) => {
+    dispatch(setStatusAC("loading"))
     taskAPI.deleteTask(todolistID, taskID)
         .then(response => {
             dispatch(removeTaskAC(todolistID, taskID))
+            dispatch(setStatusAC("succeeded"))
         })
 }
 export const addTaskThunkCreator = (todolistID: string, title: string): AppThunkType => (dispatch) => {
+    dispatch(setStatusAC("loading"))
     taskAPI.createTask(todolistID, title)
         .then(response => {
-            dispatch(addTaskAC(response.data.data.item))
+            if (response.data.resultCode === 0) {
+                dispatch(addTaskAC(response.data.data.item))
+                dispatch(setStatusAC("succeeded"))
+            } else {
+                if (response.data.messages.length) {
+                    dispatch(setErrorAC(response.data.messages[0]))
+                } else {
+                    dispatch(setErrorAC("some error occurred :("))
+                }
+                dispatch(setStatusAC("failed"))
+            }
+
+
         })
 }
 export const updateTaskThunkCreator = (todolistID: string, taskID: string, domainModel: UpdateTaskDomainModelType): AppThunkType => (dispatch, getState: () => AppRootState) => {
@@ -63,10 +81,11 @@ export const updateTaskThunkCreator = (todolistID: string, taskID: string, domai
             status: currentTask.status,
             ...domainModel
         }
-
+        dispatch(setStatusAC("loading"))
         taskAPI.updateTask(todolistID, taskID, apiModel)
             .then(response => {
                 dispatch(updateTaskAC(todolistID, taskID, apiModel))
+                dispatch(setStatusAC("succeeded"))
             })
     } else {
         console.warn("Task is not found")

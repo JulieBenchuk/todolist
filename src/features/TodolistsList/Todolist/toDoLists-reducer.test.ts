@@ -16,8 +16,8 @@ beforeEach(() => {
     todolistId2 = v1();
     newTodolistTitle = "New Todolist";
     startState = [
-        {id: todolistId1, title: "What to learn", filter: "all", addedDate: "", order: 0},
-        {id: todolistId2, title: "What to buy", filter: "all", addedDate: "", order: 0}
+        {id: todolistId1, title: "What to learn", filter: "all", addedDate: "", order: 0, entityStatus: "idle"},
+        {id: todolistId2, title: "What to buy", filter: "all", addedDate: "", order: 0, entityStatus: "idle"}
     ]
 })
 
@@ -30,7 +30,7 @@ test('correct todolist should be removed', () => {
 });
 
 test('correct todolist should be added', () => {
-    const newTodolist: TodolistDomainType = {id: v1(), title: newTodolistTitle, order: 0, filter: "all", addedDate: ""}
+    const newTodolist: TodolistDomainType = {id: v1(), title: newTodolistTitle, order: 0, filter: "all", addedDate: "", entityStatus: "idle"}
     const endState = toDoListsReducer(startState, addTodolistAC(newTodolist))
 
     expect(endState.length).toBe(3);
