@@ -3,7 +3,7 @@ import {todolistAPI, TodolistType} from "../../../api/todolist-api";
 import {Dispatch} from "redux";
 import {FilterValuesType} from "../../../app/App";
 import {AppActionTypes, AppThunkType} from "../../../app/store";
-import {RequestStatusType, setStatusAC} from "../../../app/app-reducer";
+import {RequestStatusType, setErrorAC, setStatusAC} from "../../../app/app-reducer";
 
 export let todolistID1 = v1();
 export let todolistID2 = v1();
@@ -46,8 +46,17 @@ export const addTodolistThunkCreator = (title: string): AppThunkType => (dispatc
     dispatch(setStatusAC("loading"))
     todolistAPI.createTodolist(title)
         .then(response=> {
-            dispatch(addTodolistAC(response.data.data.item))
-            dispatch(setStatusAC("succeeded"))
+            if (response.data.resultCode === 0){
+                dispatch(addTodolistAC(response.data.data.item))
+                dispatch(setStatusAC("succeeded"))
+            } else {
+                if (response.data.messages.length) {
+                    dispatch(setErrorAC(response.data.messages[0]))
+                } else {
+                    dispatch(setErrorAC("some error occurred when you tried to add Todo"))
+                }
+                dispatch(setStatusAC("failed"))
+            }
         })
 }
 export const changeTodolistTitleThunkCreator = (todolistID: string, title: string): AppThunkType => (dispatch)=> {
