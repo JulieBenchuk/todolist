@@ -82,15 +82,13 @@ const TodolistsList = () => {
                     return (           //up key to parent element
                         <Grid item key={tdl.id}>
                             <Paper sx={{padding: "10px"}}>
-                                <Todolist title={tdl.title}
-                                          todoListID={tdl.id}
+                                <Todolist todolist={tdl}
                                           tasks={allTodolistTasks}
                                           removeTask={removeTask}
                                           changeFilter={changeFilter}
                                           addTask={addTask}
                                           changeTaskStatus={changeStatus}
                                           removeTodolist={removeTodolist}
-                                          filter={tdl.filter}
                                           onChangeInput={changeTask}
                                           onChangeTDLTitle={onChangeTDLTitle}
                                 />
