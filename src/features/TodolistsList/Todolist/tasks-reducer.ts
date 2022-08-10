@@ -7,6 +7,7 @@ import {
 import {Dispatch} from "redux";
 import {AppActionTypes, AppRootState, AppThunkType} from "../../../app/store";
 import {setErrorAC, setStatusAC} from "../../../app/app-reducer";
+import {ErrorUtilsDispatchType, handleServerAppError, handleServerNetworkError} from "../../../utils/error-utils";
 
 
 export const removeTaskAC = (todolistID: string, taskID: string) => ({
@@ -56,15 +57,11 @@ export const addTaskThunkCreator = (todolistID: string, title: string): AppThunk
                 dispatch(addTaskAC(response.data.data.item))
                 dispatch(setStatusAC("succeeded"))
             } else {
-                if (response.data.messages.length) {
-                    dispatch(setErrorAC(response.data.messages[0]))
-                } else {
-                    dispatch(setErrorAC("some error occurred :("))
-                }
-                dispatch(setStatusAC("failed"))
+                handleServerAppError(response.data, dispatch)
             }
-
-
+        })
+        .catch((error) => {
+            handleServerNetworkError(error, dispatch)
         })
 }
 export const updateTaskThunkCreator = (todolistID: string, taskID: string, domainModel: UpdateTaskDomainModelType): AppThunkType => (dispatch, getState: () => AppRootState) => {
@@ -84,8 +81,16 @@ export const updateTaskThunkCreator = (todolistID: string, taskID: string, domai
         dispatch(setStatusAC("loading"))
         taskAPI.updateTask(todolistID, taskID, apiModel)
             .then(response => {
-                dispatch(updateTaskAC(todolistID, taskID, apiModel))
-                dispatch(setStatusAC("succeeded"))
+                if (response.data.resultCode === 0) {
+                    dispatch(updateTaskAC(todolistID, taskID, apiModel))
+                    dispatch(setStatusAC("succeeded"))
+                } else {
+                    handleServerAppError(response.data, dispatch)
+                }
+
+            })
+            .catch((error) => {
+                handleServerNetworkError(error, dispatch)
             })
     } else {
         console.warn("Task is not found")
