@@ -1,6 +1,6 @@
 import {applyMiddleware, combineReducers, compose, legacy_createStore} from "redux";
 import {
-    addTodolistAC, changeTodolistFilterAC,
+    addTodolistAC, changeTodolistEntityStatusAC, changeTodolistFilterAC,
     changeTodolistTitleAC,
     removeTodolistAC, setTodolistsAC,
     toDoListsReducer
@@ -37,6 +37,7 @@ export type AppActionTypes =
     | ReturnType<typeof setTodolistsAC>
     | setErrorACType
     | setStatusACType
+    | ReturnType<typeof changeTodolistEntityStatusAC>
 
 export type AppThunkType<ReturnType = void> = ThunkAction<ReturnType, AppRootState, unknown, AppActionTypes>
 // @ts-ignore

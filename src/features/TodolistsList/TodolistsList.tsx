@@ -74,7 +74,7 @@ const TodolistsList = () => {
     return (
         <div>
             <Grid container style={{padding: "20px"}}>
-                <AddItemForm addItem={addTodoList}/>
+                <AddItemForm addItem={addTodoList} />
             </Grid>
             <Grid container spacing={3}>
                 {todolists.map(tdl => {
