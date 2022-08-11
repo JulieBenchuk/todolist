@@ -3,7 +3,7 @@ import {RequestStatusType} from "../app/app-reducer";
 const settings = {
     withCredentials: true,
     headers: {
-        "api-key": "70de11b1-bf5b-4c8c-b1d9-3d688d4a8c08"
+        "api-key": "25e2877e-c600-4999-b524-1694f1ae4252"
     }
 }
 const instance = axios.create({
