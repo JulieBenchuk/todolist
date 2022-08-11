@@ -61,6 +61,7 @@ export const removeTaskThunkCreator = (taskID: string, todolistID: string): AppT
                 dispatch(setStatusAC("succeeded"))
             } else {
                 handleServerAppError(response.data, dispatch)
+                dispatch(changeTaskEntityStatusAC(todolistID, taskID, "idle"))
             }
         })
         .catch((error) => {
@@ -106,6 +107,7 @@ export const updateTaskThunkCreator = (todolistID: string, taskID: string, domai
                     dispatch(setStatusAC("succeeded"))
                 } else {
                     handleServerAppError(response.data, dispatch)
+                    dispatch(changeTaskEntityStatusAC(todolistID, taskID, "idle"))
                 }
 
             })
