@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, {AxiosResponse} from 'axios';
 
 export type TodolistType = {
     id: string
@@ -11,6 +11,12 @@ export type ResponseType<D> = {
     messages: Array<string>
     fieldsErrors: Array<string>
     data: any
+}
+export type LoginParamsType = {
+    email: string
+    password: string
+    rememberMe: boolean
+    captcha?: string
 }
 
 
@@ -40,5 +46,10 @@ export const todolistAPI = {
     updateTodolistTitle(id: string, title: string) {
         const promise = instance.put<ResponseType<{}>>(`todo-lists/${id}`, {title: title})
         return promise
+    }
+}
+export const authAPI = {
+    login(data: LoginParamsType) {
+        return instance.post<LoginParamsType, AxiosResponse<ResponseType<{ userId: number }>>>("auth/login", data)
     }
 }

@@ -14,12 +14,14 @@ import {
 } from "../features/TodolistsList/Todolist/tasks-reducer";
 import thunk, {ThunkAction} from "redux-thunk";
 import {appReducer, setErrorACType, setStatusAC, setStatusACType} from "./app-reducer";
+import {authReducer, setIsLoggedInAC} from "../features/Login/authReducer";
 
 
 const rootReducer = combineReducers({
     todolists: toDoListsReducer,
     tasks: tasksReducer,
-    app: appReducer
+    app: appReducer,
+    auth: authReducer
 })
 
 
@@ -39,6 +41,7 @@ export type AppActionTypes =
     | setStatusACType
     | ReturnType<typeof changeTodolistEntityStatusAC>
     | ReturnType<typeof changeTaskEntityStatusAC>
+
 
 export type AppThunkType<ReturnType = void> = ThunkAction<ReturnType, AppRootState, unknown, AppActionTypes>
 // @ts-ignore
