@@ -6,7 +6,7 @@ import {
     toDoListsReducer
 } from "../features/TodolistsList/Todolist/toDoLists-reducer";
 import {
-    addTaskAC,
+    addTaskAC, changeTaskEntityStatusAC,
     removeTaskAC,
     setTasksAC,
     tasksReducer,
@@ -38,6 +38,7 @@ export type AppActionTypes =
     | setErrorACType
     | setStatusACType
     | ReturnType<typeof changeTodolistEntityStatusAC>
+    | ReturnType<typeof changeTaskEntityStatusAC>
 
 export type AppThunkType<ReturnType = void> = ThunkAction<ReturnType, AppRootState, unknown, AppActionTypes>
 // @ts-ignore

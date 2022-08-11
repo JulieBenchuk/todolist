@@ -49,7 +49,8 @@ test('correct task should be added to correct array', () => {
         description: "",
         order: 0,
         priority: 0,
-        startDate: ""
+        startDate: "",
+        entityStatus: "idle"
     });
 
     const endState = tasksReducer(startState, action)
