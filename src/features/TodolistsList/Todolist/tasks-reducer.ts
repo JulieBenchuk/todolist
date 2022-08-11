@@ -39,14 +39,25 @@ export const fetchTasksThunkCreator = (todolistID: string): AppThunkType => (dis
             const action = setTasksAC(response.data.items, todolistID);
             dispatch(action)
             dispatch(setStatusAC("succeeded"))
+
+        })
+        .catch((error) => {
+            handleServerNetworkError(error, dispatch)
         })
 }
 export const removeTaskThunkCreator = (taskID: string, todolistID: string): AppThunkType => (dispatch) => {
     dispatch(setStatusAC("loading"))
     taskAPI.deleteTask(todolistID, taskID)
         .then(response => {
-            dispatch(removeTaskAC(todolistID, taskID))
-            dispatch(setStatusAC("succeeded"))
+            if (response.data.resultCode === 0) {
+                dispatch(removeTaskAC(todolistID, taskID))
+                dispatch(setStatusAC("succeeded"))
+            } else {
+                handleServerAppError(response.data, dispatch)
+            }
+        })
+        .catch((error) => {
+            handleServerNetworkError(error, dispatch)
         })
 }
 export const addTaskThunkCreator = (todolistID: string, title: string): AppThunkType => (dispatch) => {
