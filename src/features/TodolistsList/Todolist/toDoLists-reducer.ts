@@ -2,7 +2,7 @@ import {v1} from "uuid";
 import {todolistAPI, TodolistType} from "../../../api/todolist-api";
 import {FilterValuesType} from "../../../app/App";
 import {AppActionTypes, AppThunkType} from "../../../app/store";
-import {RequestStatusType, setErrorAC, setStatusAC} from "../../../app/app-reducer";
+import {RequestStatusType, setStatusAC} from "../../../app/app-reducer";
 import {handleServerAppError, handleServerNetworkError} from "../../../utils/error-utils";
 
 export let todolistID1 = v1();

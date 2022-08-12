@@ -1,25 +1,5 @@
 import axios, {AxiosResponse} from 'axios';
 
-export type TodolistType = {
-    id: string
-    addedDate: string
-    order: number
-    title: string
-}
-export type ResponseType<D> = {
-    resultCode: number
-    messages: Array<string>
-    fieldsErrors: Array<string>
-    data: any
-}
-export type LoginParamsType = {
-    email: string
-    password: string
-    rememberMe: boolean
-    captcha?: string
-}
-
-
 const settings = {
     withCredentials: true,
     headers: {
@@ -51,5 +31,28 @@ export const todolistAPI = {
 export const authAPI = {
     login(data: LoginParamsType) {
         return instance.post<LoginParamsType, AxiosResponse<ResponseType<{ userId: number }>>>("auth/login", data)
+    },
+    me(){
+        return instance.get<ResponseType<{}>>("auth/me")
     }
+}
+
+//types
+export type TodolistType = {
+    id: string
+    addedDate: string
+    order: number
+    title: string
+}
+export type ResponseType<D> = {
+    resultCode: number
+    messages: Array<string>
+    fieldsErrors: Array<string>
+    data: any
+}
+export type LoginParamsType = {
+    email: string
+    password: string
+    rememberMe?: boolean
+    captcha?: string
 }

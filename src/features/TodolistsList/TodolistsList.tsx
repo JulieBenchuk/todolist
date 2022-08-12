@@ -17,12 +17,15 @@ import {
 } from "./Todolist/tasks-reducer";
 import {TaskStatuses} from "../../api/task-api";
 import {FilterValuesType} from "../../app/App";
+import {Navigate} from "react-router-dom";
 
 
 const TodolistsList = () => {
     const dispatch: any = useDispatch();
+    const isLoggedIn = useSelector<AppRootState, boolean>(state => state.auth.isLoggedIn)
     let todolists = useSelector<AppRootState, Array<TodolistDomainType>>(state => state.todolists)
     let tasks = useSelector<AppRootState, TasksStateType>(state => state.tasks)
+
 
 /// fn for tasks
     const removeTask = useCallback((todoListID: string, id: string) => {
@@ -67,10 +70,15 @@ const TodolistsList = () => {
     }, [])
 
     useEffect(() => {
+        if (!isLoggedIn) {
+            return
+        }
         dispatch(fetchTodolistThunkCreator())
     }, [])
 
-
+    if (!isLoggedIn){
+        return <Navigate to={"/login"}/>
+    }
     return (
         <div>
             <Grid container style={{padding: "20px"}}>

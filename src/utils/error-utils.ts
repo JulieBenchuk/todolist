@@ -6,7 +6,7 @@ import {ResponseType} from "../api/todolist-api";
 export const handleServerAppError = <T>(data: ResponseType<T>, dispatch: ErrorUtilsDispatchType) => {
     if (data.messages.length) {
         dispatch(setErrorAC(data.messages[0]))
-    } else {
+    } else { 
         dispatch(setErrorAC('Some error occurred'))
     }
     dispatch(setStatusAC('failed'))
