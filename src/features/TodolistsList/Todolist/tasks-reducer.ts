@@ -105,6 +105,7 @@ export const updateTaskThunkCreator = (todolistID: string, taskID: string, domai
                 if (response.data.resultCode === 0) {
                     dispatch(updateTaskAC(todolistID, taskID, apiModel))
                     dispatch(setStatusAC("succeeded"))
+                    dispatch(changeTaskEntityStatusAC(todolistID, taskID, "succeeded"))
                 } else {
                     handleServerAppError(response.data, dispatch)
                     dispatch(changeTaskEntityStatusAC(todolistID, taskID, "idle"))
@@ -113,7 +114,7 @@ export const updateTaskThunkCreator = (todolistID: string, taskID: string, domai
             })
             .catch((error) => {
                 handleServerNetworkError(error, dispatch)
-                dispatch(changeTaskEntityStatusAC(todolistID, taskID, "idle"))
+                dispatch(changeTaskEntityStatusAC(todolistID, taskID, "failed"))
             })
     } else {
         console.warn("Task is not found")
