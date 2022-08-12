@@ -1,12 +1,12 @@
 import React, {useEffect} from 'react';
 import './App.css';
 import ButtonAppBar from "../components/ButtonAppBar";
-import {Container, LinearProgress} from "@mui/material";
+import {CircularProgress, Container, LinearProgress} from "@mui/material";
 import TodolistsList from "../features/TodolistsList/TodolistsList";
 import {ErrorSnackbar} from "../components/ErrorSnackbar/ErrorSnackbar";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootState} from "./store";
-import {RequestStatusType} from "./app-reducer";
+import {AppInitialStateType} from "./app-reducer";
 import {Login} from "../features/Login/Login";
 import {
     Routes,
@@ -19,12 +19,19 @@ import {initializeAppTC} from "../features/Login/authReducer";
 export type FilterValuesType = "all" | "active" | "completed";
 
 function App() {
-    const status = useSelector<AppRootState, RequestStatusType>(state => state.app.status)
+    const {status, isInitialized} = useSelector<AppRootState, AppInitialStateType>(state => state.app)
     const dispatch: any = useDispatch()
     console.log("App is called")
     useEffect(()=> {
         dispatch(initializeAppTC())
     }, [])
+
+    if (!isInitialized) {
+        return <div
+            style={{position: 'fixed', top: '30%', textAlign: 'center', width: '100%'}}>
+            <CircularProgress/>
+        </div>
+    }
     return <div>
         <ErrorSnackbar/>
         <ButtonAppBar/>
