@@ -2,7 +2,7 @@
   "name": "it-incubator-todolist-ts",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://juliebenchuk.github.io",
+  "homepage": "https://JulieBenchuk.github.io/toDoList_2nd_version",
   "dependencies": {
     "@emotion/react": "^11.9.0",
     "@emotion/styled": "^11.8.1",
@@ -39,7 +39,7 @@
     "storybook": "start-storybook -p 9009 -s public",
     "build-storybook": "build-storybook -s public",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d build",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": "react-app",
