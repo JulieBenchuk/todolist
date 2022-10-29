@@ -7,7 +7,8 @@ const settings = {
     }
 }
 const instance = axios.create({
-    baseURL: "https://social-network.samuraijs.com/api/1.1/",
+    baseURL: "https://neko-back.herokuapp.com/2.0",
+    //https://social-network.samuraijs.com/api/1.1/",
     ...settings
 })
 export const todolistAPI = {
