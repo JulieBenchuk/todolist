@@ -1,4 +1,4 @@
-import {applyMiddleware, combineReducers, compose, legacy_createStore} from "redux";
+import {applyMiddleware, combineReducers, createStore} from "redux";
 import {
     addTodolistAC, changeTodolistEntityStatusAC, changeTodolistFilterAC,
     changeTodolistTitleAC,
@@ -13,8 +13,8 @@ import {
     updateTaskAC
 } from "../features/TodolistsList/Todolist/tasks-reducer";
 import thunk, {ThunkAction} from "redux-thunk";
-import {appReducer, setErrorACType, setStatusAC, setStatusACType} from "./app-reducer";
-import {authReducer, setIsLoggedInAC} from "../features/Login/authReducer";
+import {appReducer, setErrorACType, setStatusACType} from "./app-reducer";
+import {authReducer} from "../features/Login/authReducer";
 
 
 const rootReducer = combineReducers({
@@ -25,7 +25,7 @@ const rootReducer = combineReducers({
 })
 
 
-export const store = legacy_createStore(rootReducer, applyMiddleware(thunk));
+export const store = createStore(rootReducer, applyMiddleware(thunk));
 export type AppRootState = ReturnType<typeof rootReducer>
 export type AppActionTypes =
     | ReturnType<typeof removeTaskAC>
@@ -44,5 +44,4 @@ export type AppActionTypes =
 
 
 export type AppThunkType<ReturnType = void> = ThunkAction<ReturnType, AppRootState, unknown, AppActionTypes>
-// @ts-ignore
-window.store = store;
+

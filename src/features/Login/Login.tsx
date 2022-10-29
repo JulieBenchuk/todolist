@@ -38,8 +38,8 @@ export const Login = () => {
 
             if (!values.password) {
                 errors.password = 'Required';
-            } else if (values.password.length < 5) {
-                errors.password = 'Must be 5 characters or more';
+            } else if (values.password.length < 4) {
+                errors.password = 'Must be 4 characters or more';
             }
 
             return errors
@@ -58,12 +58,8 @@ export const Login = () => {
                 <FormControl>
 
                     <FormLabel>
-                        <p>To log in get registered
-                            <a href={'https://social-network.samuraijs.com/'}
-                               target={'_blank'}> here
-                            </a>
-                        </p>
-                        <p>or use common test account credentials:</p>
+
+                        <p>Use common test account credentials:</p>
                         <p>Email: free@samuraijs.com</p>
                         <p>Password: free</p>
                     </FormLabel>
