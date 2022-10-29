@@ -3,11 +3,11 @@ import {RequestStatusType} from "../app/app-reducer";
 const settings = {
     withCredentials: true,
     headers: {
-        "api-key": "551f2e1a-d9fe-4d4c-817c-0a0c51d747e0"
+        "api-key": "d501eb2c-62af-4110-b3bd-a9b80e379d76"
     }
 }
 const instance = axios.create({
-    baseURL: "https://social-network.samuraijs.com/api/1.1/todo-lists",
+    baseURL: "https://social-network.samuraijs.com/api/1.1/todo-lists/",
     ...settings
 })
 
