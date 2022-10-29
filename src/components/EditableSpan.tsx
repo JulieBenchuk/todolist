@@ -1,4 +1,4 @@
-import React, {useState, MouseEvent, FocusEvent, ChangeEvent} from 'react';
+import React, {useState, ChangeEvent} from 'react';
 import {TextField} from "@mui/material";
 
 type EditableSpanPropsSpan = {
@@ -7,7 +7,6 @@ type EditableSpanPropsSpan = {
     disabled?: boolean
 }
 export const EditableSpan = React.memo((props: EditableSpanPropsSpan) => {
-    console.log("EditableSpan is called")
     const [title, setTitle] = useState("")
     const [editMode, setEditMode] = useState<boolean>(false)
     const editSpanHandler = () => {
