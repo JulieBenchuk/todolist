@@ -21,7 +21,6 @@ export type FilterValuesType = "all" | "active" | "completed";
 function App() {
     const {status, isInitialized} = useSelector<AppRootState, AppInitialStateType>(state => state.app)
     const dispatch: any = useDispatch()
-    console.log("App is called")
     useEffect(()=> {
         dispatch(initializeAppTC())
     }, [])
