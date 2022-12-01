@@ -50,7 +50,7 @@ const TodolistsList = () => {
 
     /// fn tor todolists
     const changeFilter = useCallback((todoListID: string, value: FilterValuesType) => {
-        const action = changeTodolistFilterAC(todoListID, value)
+        const action = changeTodolistFilterAC({id: todoListID, filter: value})
         dispatch(action)
     }, [])
 
