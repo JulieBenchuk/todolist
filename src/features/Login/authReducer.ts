@@ -26,12 +26,12 @@ export const {setIsLoggedInAC} = slice.actions
 
 // thunks
 export const loginTC = (data: LoginParamsType) => (dispatch: Dispatch) => {
-    dispatch(setStatusAC('loading'))
+    dispatch(setStatusAC({status: 'loading'}))
     authAPI.login(data)
         .then((res) => {
             if (res.data.resultCode === 0) {
                 dispatch(setIsLoggedInAC({value: true}))
-                dispatch(setStatusAC('succeeded'))
+                dispatch(setStatusAC({status: 'succeeded'}))
             } else {
                 handleServerAppError(res.data, dispatch);
             }
@@ -44,10 +44,10 @@ export const initializeAppTC = () => (dispatch: Dispatch) => {
     authAPI.me().then((res) => {
         if (res.data.resultCode === 0) {
             dispatch(setIsLoggedInAC({value: true}))
-            dispatch(setIsInitializedAC(true))
+            dispatch(setIsInitializedAC({isInitialized: true}))
         } else {
             handleServerAppError(res.data, dispatch);
-            dispatch(setIsInitializedAC(true))
+            dispatch(setIsInitializedAC({isInitialized: true}))
         }
     })
         .catch((error) => {
@@ -55,12 +55,12 @@ export const initializeAppTC = () => (dispatch: Dispatch) => {
         })
 }
 export const logoutTC = () => (dispatch: Dispatch) => {
-    dispatch(setStatusAC('loading'))
+    dispatch(setStatusAC({status: 'loading'}))
     authAPI.logout()
         .then(res => {
             if (res.data.resultCode === 0) {
                 dispatch(setIsLoggedInAC({value: false}))
-                dispatch(setStatusAC('succeeded'))
+                dispatch(setStatusAC({status: 'succeeded'}))
             } else {
                 handleServerAppError(res.data, dispatch)
             }
