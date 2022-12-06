@@ -38,7 +38,7 @@ const slice = createSlice({
             }
         },
         setTodolistsAC(state, action: PayloadAction<{todolists: Array<TodolistType>}>){
-            return action.payload.todolists.forEach(tl=>({...tl, filter: "all", entityStatus: "idle"}))
+            return action.payload.todolists.forEach(tl=>({...tl, filter: "all", entityStatus: "idle"})) //or MAP??????
         },
         changeTodolistEntityStatusAC(state, action: PayloadAction<{todolistID: string, entityStatus: RequestStatusType}>){
             const index = state.findIndex(tl=>tl.id === action.payload.todolistID)

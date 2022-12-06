@@ -8,6 +8,7 @@ import {AppActionTypes, AppRootState, AppThunkType} from "../../../app/store";
 import {RequestStatusType, setStatusAC} from "../../../app/app-reducer";
 import {handleServerAppError, handleServerNetworkError} from "../../../utils/error-utils";
 import {actions} from "@storybook/addon-actions";
+import {addTodolistAC, removeTodolistAC, setTodolistsAC} from "./toDoLists-reducer";
 
 
 export const removeTaskAC = (todolistID: string, taskID: string) => ({
@@ -141,17 +142,17 @@ export const tasksReducer = (state: TasksStateType = initialState, action: AppAc
                     ...action.model
                 } : t)
             };
-        case "ADD-TODOLIST": {
-            return {...state, [action.todolist.id]: []};
+        case addTodolistAC.type: {
+            return {...state, [action.payload.todolist.id]: []};
         }
-        case "REMOVE-TODOLIST": {
+        case removeTodolistAC.type: {
             let copyState = {...state}
-            delete copyState[action.id];
+            delete copyState[action.payload.id];
             return copyState
         }
-        case "SET_TODOLIST": {
+        case setTodolistsAC.type: {
             const copyState = {...state}
-            action.todolists.forEach((tdl: any) => {
+            action.payload.todolists.forEach((tdl: any) => {
                 copyState[tdl.id] = []
             })
             return copyState
