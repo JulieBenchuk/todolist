@@ -4,7 +4,7 @@ import {
     UpdateTaskDomainModelType,
     UpdateTaskModelType
 } from "../../../api/task-api";
-import {AppActionTypes, AppRootState, AppThunkType} from "../../../app/store";
+import {AppRootState} from "../../../app/store";
 import {RequestStatusType, setStatusAC} from "../../../app/app-reducer";
 import {handleServerAppError, handleServerNetworkError} from "../../../utils/error-utils";
 import {actions} from "@storybook/addon-actions";
@@ -61,7 +61,7 @@ export const addTaskThunkCreator = (todolistID: string, title: string) => (dispa
 }
 export const updateTaskThunkCreator = (todolistID: string, taskID: string, domainModel: UpdateTaskDomainModelType) => (dispatch: Dispatch, getState: () => AppRootState) => {
     const allTasksFromState = getState().tasks
-    const tasksForCurrentTodo = allTasksFromState[todolistID]
+    const tasksForCurrentTodo: Array<TaskType> = allTasksFromState[todolistID]
     const currentTask = tasksForCurrentTodo.find(t => t.id === taskID)
     if (currentTask) {
         const apiModel: UpdateTaskModelType = {
@@ -144,37 +144,23 @@ const slice = createSlice({
                 }
             }
         },
-        extraReducers: {
-            [addTodolistAC.type]: () => {
-            },
-            [removeTodolistAC.type]: () => {
-            },
-            [setTodolistsAC.type]: () => {
-            }
+        extraReducers: (builder) => {
+            builder.addCase(addTodolistAC, (state, action) => {
+                state[action.payload.todolist.id] = [];
+            });
+            builder.addCase(removeTodolistAC, (state, action) => {
+                delete state[action.payload.id]
+            });
+            builder.addCase(setTodolistsAC, (state, action) => {
+                action.payload.todolists.forEach(tl => {
+                    state[tl.id] = []
+                })
+            })
         }
     }
 )
-export const taskReducer = slice.reducer
+export const tasksReducer = slice.reducer
 export const {removeTaskAC, addTaskAC, updateTaskAC, setTasksAC, changeTaskEntityStatusAC} = slice.actions
-export const _tasksReducer = (state: TasksStateType = initialState, action: AppActionTypes): TasksStateType => {
-    switch (action.type) {
-        case addTodolistAC.type: {
-            return {...state, [action.payload.todolist.id]: []};
-        }
-        case removeTodolistAC.type: {
-            let copyState = {...state}
-            delete copyState[action.payload.id];
-            return copyState
-        }
-        case setTodolistsAC.type: {
-            const copyState = {...state}
-            action.payload.todolists.forEach((tdl: any) => {
-                copyState[tdl.id] = []
-            })
-            return copyState
-        }
-    }
-}
 
 export type TasksStateType = {
     [key: string]: Array<TaskType>
