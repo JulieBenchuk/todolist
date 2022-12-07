@@ -22,19 +22,6 @@ export const store = configureStore({
 
 export type AppRootState = ReturnType<typeof rootReducer>
 export type AppActionTypes = any
-/* | ReturnType<typeof removeTaskAC>
- | ReturnType<typeof addTaskAC>
- | ReturnType<typeof updateTaskAC>
- | ReturnType<typeof setTasksAC>
- | ReturnType<typeof removeTodolistAC>
- | ReturnType<typeof addTodolistAC>
- | ReturnType<typeof changeTodolistTitleAC>
- | ReturnType<typeof changeTodolistFilterAC>
- | ReturnType<typeof setTodolistsAC>
- | setErrorACType
- | setStatusACType
- | ReturnType<typeof changeTodolistEntityStatusAC>
- | ReturnType<typeof changeTaskEntityStatusAC>*/
 
 
 export type AppThunkType<ReturnType = void> = ThunkAction<ReturnType, AppRootState, unknown, AppActionTypes>
