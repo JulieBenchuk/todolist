@@ -14,7 +14,7 @@ const rootReducer = combineReducers({
     auth: authReducer
 })
 
-export const RootReducerType = typeof rootReducer
+export type RootReducerType = typeof rootReducer
 
 export const store = configureStore({
     reducer: rootReducer,
@@ -23,7 +23,7 @@ export const store = configureStore({
 })
 
 
-export type AppRootState = ReturnType<typeof rootReducer>
+export type AppRootState = ReturnType<RootReducerType>
 export type AppActionTypes = any
 
 
